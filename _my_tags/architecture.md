@@ -1,0 +1,4 @@
+---
+slug: architecture
+name: architecture
+---
