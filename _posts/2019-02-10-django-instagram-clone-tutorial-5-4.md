@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Django를 이용한 Instagram clone 만들기 Part.5 (4)"
-description: "기타 짜잘한 디자인 완성시키기"
+description: "AJAX를 이용한 기본적인 댓글 시스템 구현"
 tags: [tutorial, django, python]
 
 ---
