@@ -25,9 +25,14 @@ tags: [tutorial, django, python]
 
 
 ## 0. AJAX 없이 댓글 구현하기
-현재 댓글기능은 80%정도 구현되어 있다. Template의 댓글 입력 form의 action을 `comments:comment-create` url과 연결하고 javascript로 엔터키 입력 여부에 따라 data를 넘겨주면 그만이다. 상용 서비스에는 댓글의 수정/삭제 기능이 없어서 개인적으로 매우 불편했다. 댓글 수정/삭제 버튼도 넣어주자.
+현재 댓글기능은 80%정도 구현되어 있다. 추가적으로 다음 과정을 거치면 된다.
 
-예컨대 다음과 같은 형식이 될 것이다.
+1. Template의 댓글 입력 form의 action을 `comments:comment-create` url과 연결한다.
+2. javascript로 엔터키 입력 여부에 따라 data를 해당 url에 넘겨준다.
+
+Instagram 상용 서비스에는 댓글의 수정/삭제 기능이 없어서 불편하다. 여기에서는 댓글 수정/삭제 버튼도 넣어주자.
+
+다음과 같은 형식이 될 것이다.
 
 ```django
 {% raw %}
@@ -45,7 +50,6 @@ tags: [tutorial, django, python]
     </div>
 
 ...후략
-
 {% endraw %}
 ```
 - `action`에는 CommentCreate URL이 들어간다.
