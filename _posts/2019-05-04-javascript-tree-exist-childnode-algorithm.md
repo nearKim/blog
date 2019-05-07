@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Tree 구조의 특정 Node의 child 중 id 존재 여부 탐색"
-description: "Javascript를 이용하여 Tree의 어떤 Node의 하위 node 중에 특정한 id가 존재하는지 검사하기"
+title: "Tree 구조에서 특정 Node의 후손 중 특정 id를 가진 Node의 존재 여부 알아내기"
+description: "Javascript를 이용하여 Tree의 어떤 Node의 모든 하위 Node 중에 특정한 id를 가진 Node가 존재하는지 검사하기"
 tags: [javascript, algorithm]
 
 ---
@@ -9,7 +9,7 @@ tags: [javascript, algorithm]
 회사에서 `React`를 활용한 업무 중 기본적인 알고리즘 문제를 구현 할 기회가 있어서 적는 경험담.
 
 # 1. 문제 정의
-제반 상황은 [이전 포스팅](2019-05-01-javascript-tree-find-node-algorithm.md) 과 동일하다.
+제반 상황은 [이전 포스팅](javascript-tree-find-node-algorithm) 과 동일하다.
 
 
 이 때, 임의의 `id`와 `Node`객체가 주어졌을 때, 해당 Node의 모든 Child 중 해당 id를 가진 node가 존재하는지 검사한다.
@@ -53,7 +53,7 @@ function containsTargetId(node, targetId) {
   if (node.id === targetId) return true
 
   // node.child의 길이가 0 이면 false 이다
-  if (len(node.child) === 0) return false
+  if (node.child.length === 0) return false
 
   // 결과 변수 초기화
   result = false

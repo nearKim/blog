@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "Tree 구조에서 Node 찾기"
-description: "Javascript를 이용한 Tree 자료구조의 특정 node 찾기"
+title: "Tree 구조에서 특정 Node 찾기"
+description: "Javascript를 이용한 Tree 자료구조에서 특정 ID를 가지는 Node 탐색하기"
 tags: [javascript, algorithm]
 
 ---
