@@ -9,7 +9,7 @@ tags: [aws, devops, django, tutorial]
 # 목표 정의
 가장 기본적이고 최소한의 방법만을 사용하여 간단한 Django 어플리케이션을 AWS EC2 인스턴스를 이용하여 일반 사용자들이 웹사이트를 이용 가능하도록 배포한다.
 
-## 기술 스택
+### 기술 스택
 사용할 기술 스택은 다음과 같다.
 
 1. git
@@ -18,7 +18,7 @@ tags: [aws, devops, django, tutorial]
 4. EC2 (Ubuntu 18)
 5. Django 2.1
 
-## 전제 조건
+### 전제 조건
 - AWS 계정이 있고 잘 만들어진(inbound, outbound규칙 등이 잘 세팅된) EC2 인스턴스가 존재한다.
 - github등의 리모트 저장소에 소스코드가 존재하여 배포 브랜치의 이름은 `production`이다.
 - 가상환경은 구성하지 않는다.
@@ -27,7 +27,7 @@ tags: [aws, devops, django, tutorial]
 
 # EC2
 
-## Source 클론
+### Source 클론
 EC2 인스턴스에 접속하여 소스코드를 클론받는다. 통상적으로 접속 명령어는 다음과 같을 것이다.
 
 ```bash
@@ -46,7 +46,7 @@ mkdir data && cd data
 git clone [git-url] djangotest && cd djangotest
 ```
 
-## WSGI 확인
+### WSGI 확인
 django의 경우 처음 프로젝트를 생성하면 프로젝트 이름과 동일한 이름을 가진 폴더가 자동으로 생성된다. 이 폴더 안에는 django가 구동하기 위한 중요한 파일들이 들어있다.
 
 이 중, 배포과정에서는 `wsgi.py`가 중요하다. 이 파일은 `WSGI 포로토콜`을 구현한 웹서버(gunicorn 등)과 Python web framework(django, flask 등)간의 연결을 위한 일종의 엔트리포인트라고 보면 된다.
@@ -54,7 +54,7 @@ django의 경우 처음 프로젝트를 생성하면 프로젝트 이름과 동�
 해당 폴더에 `wsgi.py`가 존재하고 내용도 정확한지 확인한다.
 
 
-## Python 확인
+### Python 확인
 우리는 가상환경을 사용하지 않으므로 python 버전 충돌 문제를 반드시 확인해야 한다. Ubuntu는 18버전부터는 Python3를 기본으로 내장하고 있다. 확인해보자.
 
 ```bash
@@ -89,7 +89,7 @@ sudo apt install python3-pip
 Django는 `./maange.py runserver` 커맨드를 통해 경량 웹서버를 로컬머신에 구동하는 기능을 제공한다. [공식문서](https://docs.djangoproject.com/en/1.8/ref/django-admin/#runserver-port-or-address-port)에 따르면 이 기능은 보안 및 성능면에서 배포용으로 적합하지 않다. 따라서 우리는 배포에 최적화된 웹서버인 gunicorn을 통해 배포할 것이다.
 
 
-## Gunicorn 설치
+### Gunicorn 설치
 EC2 인스턴스에 접속하여 gunicorn을 설치한다.
 
 ```bash
@@ -98,7 +98,7 @@ pip3 install gunicorn
 
 > `apt-get`을 이용한 gunicorn 설치 시 python3와 호환되지 않는 문제가 있었다. 이 경우 `sudo apt-get install gunicorn3` 를 통해 `gunicorn3`를 설치해야 한다.
 
-## Gunicorn 실행
+### Gunicorn 실행
 `gunicorn`은 `nginx`가 프록시하여 로컬호스트로 던져주는 request들을 받아 처리하게 된다. 컨벤션에 따라 8000번 포트를 사용하도록 하자. 따라서 `gunicorn`서비스는 `127.0.0.1:8000`에 바인딩되어야 한다.
 
 
@@ -121,7 +121,7 @@ sudo lsof -i -P -n | grep gunicorn
 
 # Nginx
 
-## Nginx 설치
+### Nginx 설치
 홈페이지에 나와있는대로 잘 설치해준다.
 
 ```bash
@@ -129,7 +129,7 @@ sudo apt-get update
 sudo apt-get install nginx
 ```
 
-## settings.py 확인
+### settings.py 확인
 nginx 설정을 하기 위해서는 현재 Django가 static file들을 어디에 저장하는지, static file을 요청하는 request는 어떻게 던져주는지 알아야 한다. 프로젝트 루트의 `settings.py`를 확인한다.
 
 > 만일 개발환경, 배포환경에서 서로 다른 settings파일을 사용하고 있는 경우 `wsgi.py`에서 로딩하고 있는 settings파일을 확인해야한다.
@@ -144,7 +144,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 - STATIC_URL은 STATIC_ROOT에 모인 파일을 찾고자 할 때 사용할 URL을 지정한다. 예컨대 test app의 index.js를 불러오고자 한다면 (setting하기 나름이지만) http://[domain or IP]/static/test/index.js 로 static request이 생성될 것이다.
 
 
-## conf 파일 설정
+### conf 파일 설정
 Nginx는 사용자들이 요청한 request중 dynamic request만 따로 프록시하여 gunicorn에게 던져준다. static request들은 알아서 Nginx가 서빙한다. 따라서 우리는 conf 파일에 2가지 설정을 해야 한다.
 
 1. Static request인 경우: Django의 `STATIC_ROOT`에 있는 파일들을 서빙하도록 설정한다.
@@ -184,7 +184,7 @@ server {
 - 그 외의 루트 URL을 포함한 dynamic request들은 모두 localhost에서 돌고 있는 `gunicorn`으로 프록시해서 던져준다.
 - 만일 Django REST Framework를 사용중이라면 명시적으로 rest_framework에 존재하는 staticfile을 가리키도록 추가해준다.
 
-## Sites enable
+### Sites enable
 새롭게 추가된 conf 파일을 symlink로 연결해준다.
 
 ```bash
