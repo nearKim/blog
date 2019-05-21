@@ -66,10 +66,10 @@ function CountInversion(A, n) {
 ```
 function SortAndCountInversion(A, n) {
     if n == 0 return 0
-    B, x = CountInversion(A[:n/2], n/2)
-    C, y = CountInversion(A[n/2:], n/2)
-    D, z = MergeAndCountSplit(A, B, C, n)
-    return x + y + z
+    B, x = SortAndCountInversion(A[:n/2], n/2)
+    C, y = SortAndCountInversion(A[n/2:], n/2)
+    D, z = MergeAndCountSplit(B, C, n)
+    return D, x + y + z
 }
 ```
 
@@ -107,7 +107,7 @@ $$y$$가 $$x$$보다 먼저 $$D$$에 복사되었다면, $$ x > y $$이다. 따�
 위 Pseudocode를 완결한다.
 
 ```
-function MergeAndCountSplit(A, B, C, n) {
+function MergeAndCountSplit(B, C, n) {
     i, j = 0
     invTotal = 0
     for k=0 to n-1 {
