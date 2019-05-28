@@ -185,7 +185,7 @@
             {% for tag in tags %}
               {% if forloop.index > 10 %}
                 <li>...</li>
-                <li><a href="/tag">Show all</a></li>
+                <li><a href="/tags">Show all</a></li>
                 {% break %}
               {% endif %}
                 <li><a href="{{ 'tag/' | relative_url }}{{ tag[0] }}">{{ tag[0] | capitalize }}</a></li>
