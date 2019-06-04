@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Quicksort 알고리즘 개요"
-description: "Random pivot을 기준으로 정렬하는 quicksort 알고리즘 알아보기"
+description: "Pivot을 기준으로 정렬하는 quicksort 알고리즘 알아보기"
 tags: [algorithm]
 ---
 
