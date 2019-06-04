@@ -59,7 +59,7 @@ function CountInversion(A, n) {
 }
 ```
 - $$x, \ y, \ z$$는 각각 Left, Right, Split inversion의 갯수다.
-- `CountSplitInversion()`이 $$O(n)$$이라면 merge sort와 마찬가지로 전체 알고리즘은 $$O(n logn)$$ 이 될 것이다.
+- `CountSplitInversion()`이 $$O(n)$$이라면 merge sort와 마찬가지로 전체 알고리즘은 $$O(n \log n)$$ 이 될 것이다.
 
 아직 우리는 Sorting을 고려하지 않았다. 분할된 Array를 정렬하는 과정을 위 Pseudocode에 포함시킨다.
 
@@ -128,9 +128,9 @@ function MergeAndCountSplit(B, C, n) {
 - 총 inversion count를 저장하다가 Merge 과정에서 C의 포인터가 움직일 때마다 B의 잔여 원소갯수를 더한다.
 
 # 복잡도
-앞서 논의한대로 `MergeAndCountSplit`의 복잡도가 n이라는 것이 증명된다면 알고리즘의 총 복잡도는 Merge Sort와 같은 $$O(nlogn)$$이 될 것이다. Pseudocode에서 보듯이 이 로직은 sort를 하고 <b>C의 원소를 iteration할 때마다 </b>`invTotal`변수에 자연수를 더해주는 과정이 추가된 것 뿐이다. C의 원소의 갯수만큼 복잡도가 추가되었으므로 `MergeAndCountSplit`의 총 복잡도는 $$O(n)=O(n) + O(n)$$ 이다.
+앞서 논의한대로 `MergeAndCountSplit`의 복잡도가 n이라는 것이 증명된다면 알고리즘의 총 복잡도는 Merge Sort와 같은 $$O(n \log n)$$이 될 것이다. Pseudocode에서 보듯이 이 로직은 sort를 하고 <b>C의 원소를 iteration할 때마다 </b>`invTotal`변수에 자연수를 더해주는 과정이 추가된 것 뿐이다. C의 원소의 갯수만큼 복잡도가 추가되었으므로 `MergeAndCountSplit`의 총 복잡도는 $$O(n)=O(n) + O(n)$$ 이다.
 
-따라서 전체 알고리즘의 복잡도는 $$O(nlogn)$$ 이다.
+따라서 전체 알고리즘의 복잡도는 $$O(n \log n)$$ 이다.
 
 # 활용
 Inversion count는 완전히 역순으로 정렬된 배열일 경우 가장 크다. 이를 이용하여 recommender system에서 취향의 <b>similarity measure</b>로 사용할 수 있다.
