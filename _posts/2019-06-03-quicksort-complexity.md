@@ -50,25 +50,27 @@ $$X_{ij}( \sigma)$$: Quicksort $$\sigma$$ 진행과정에서 $$z_i$$와 $$z_j$$ 
 
 라 정의하자.
 
-Quicksort는 모든 iteration에서 <b>pivot을 기준으로</b> 나머지 원소들을 비교한다. 두개의 element 중 1개가 pivot으로 선택된다면 선형탐색시 무조건 1번 비교되고 이후의 recursive call에서는 제외된다. 알고리즘 종결시까지 둘다 pivot으로 선택되지 못했다면, 애초에 두 원소는 서로 비교되지 않는다.
+Quicksort는 모든 iteration에서 <b>pivot을 기준으로</b> 나머지 원소들을 비교한다. 두개의 element 중 1개가 pivot으로 선택된다면 선형탐색시 모든 원소를 스캔하므로, 무조건 1번은 비교된다. 이후에는 서로 다른 부분 배열에 속하게 되므로 더이상 비교되지 않는다. 만일 두개의 element 모두 알고리즘 종결시까지 pivot으로 선택되지 못했다면, 애초에 두 원소는 서로 비교되지 않는다.
 
 따라서 $$z_i$$와 $$z_j$$는 한번의 Quicksort 과정에서 무조건 <b>0회</b> 혹은 <b>1회</b> 비교된다.
 
 $$X_{ij}( \sigma) = \left\{\begin{matrix}
- 0 & i \ or \ j \ is \ a \ pivot \\
- 1 & else
+ 1 & i \ or \ j \ is \ a \ pivot \\
+ 0 & else
 \end{matrix}\right.$$
 
 ### Proof
-정의에 의해 임의의 $$\sigma$$에 대하여
+임의의 $$\sigma$$에 대하여 모든 원소들간의 비교 회수를 더한 것이 곧 $$C(\sigma)$$ 이므로
 
-$$C(\sigma)=\sum_{i=1}^{n-1}\sum_{j=i+1}^{n}X_{ij}(\sigma)$$ 이고 기대값의 선형성에 의하여
+$$C(\sigma)=\sum_{i=1}^{n-1}\sum_{j=i+1}^{n}X_{ij}(\sigma)$$ 이다.
 
-$$E[C(\sigma)]=\sum_{i=1}^{n-1}\sum_{j=i+1}^{n}E[X_{ij}(\sigma)]$$ 이다.
+기대값의 선형성을 적용하면 다음과 같다.
 
-$$P_0$$를 $$\sigma$$에서 $$i,j$$가 비교되지 않을 확률, $$P_1$$은 비교될 확률이라 하면, 기대값의 정의에 의해
+$$E[C(\sigma)]=\sum_{i=1}^{n-1}\sum_{j=i+1}^{n}E[X_{ij}(\sigma)]$$
 
-$$E[X_{ij}(\sigma)] = P_{0}\cdot 0+P_{1}\cdot 1 = P_1$$ 이다.
+$$P_0$$를 $$\sigma$$에서 $$i,j$$가 비교되지 않을 확률, $$P_1$$은 비교될 확률이라 하자.
+
+기대값의 정의에 의해 $$E[X_{ij}(\sigma)] = P_{0}\cdot 0+P_{1}\cdot 1 = P_1$$ 이다.
 
 
 
