@@ -10,20 +10,6 @@ tags: [algorithm, python]
 
 # Python code 작성
 
-### Helper function
-Quicksort 알고리즘에서는 배열의 원소를 swap하는 경우가 빈번하게 발생한다. 이에 따라 코드 구현 전에 Helper 함수를 작성한다.
-
-{% highlight python %}
-def swap(arr, i, j):
-    tmp = arr[i]
-    arr[i] = arr[j]
-    arr[j] = tmp
-{% endhighlight %}
-
-전형적인 학부과정 swap 함수이다. Python에서는 `list`가 함수 parameter로 전달될 경우 reference가 전달된다. 따라서 function 내부에서 list의 변경이 일어난다면 reference가 가리키는 value가 직접 변경된다. 따라서 swap 함수에서 새 arr를 반환할 필요가 없다.
-
-* 만일 부작용(Side effect)이 없는 함수를 작성하고 싶다면 arr를 `deepcopy`한 후 swap하고 deepcopy 된 배열을 리턴하면 된다.
-
 ### Quicksort
 전형적인 분할정복 알고리즘을 구현할 때와 같이 함수를 구현한다.
 
@@ -37,7 +23,7 @@ def quicksort(arr):
         return arr
 
     pivot_idx = random.randint(0,len(arr)-1)
-    swap(arr, 0, pivot_idx)
+    arr[0], arr[pivot_idx] = arr[pivot_idx], arr[0]  # Swap
     pivot = arr[0]
 
     i = 1
@@ -46,7 +32,7 @@ def quicksort(arr):
             swap(arr, i, j)
             i+=1
     # Pivot swap
-    swap(arr, 0, i-1)
+    arr[0], arr[i-1] = arr[i-1], arr[0]
 
     # Divide & Conquer
     left_arr = quicksort(arr[:i-1])
