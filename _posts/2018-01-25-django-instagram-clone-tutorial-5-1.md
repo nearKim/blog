@@ -30,7 +30,7 @@ tags: [tutorial, django, python]
 
 {% include image.html path="documentation/insta-clone-pt5-1.png" path-detail="documentation/insta-clone-pt5-1.png" alt="image" %}
 
-Critical한 문제가 바로 눈에 보인다. ** 큰 사진의 경우 resizing**이 필요하다. 스마트폰의 카메라나 DSLR로 찍은 사진을 Instagram에 업로드하게 되는데, 일반적으로 이런 사진들은 고해상도 사진이다. 초고화질 사진들을 웹상에서 그대로 내보내게 되면 다음과 같은 문제들이 발생한다.
+Critical한 문제가 바로 눈에 보인다. ** 큰 사진의 경우 resizing** 이 필요하다. 스마트폰의 카메라나 DSLR로 찍은 사진을 Instagram에 업로드하게 되는데, 일반적으로 이런 사진들은 고해상도 사진이다. 초고화질 사진들을 웹상에서 그대로 내보내게 되면 다음과 같은 문제들이 발생한다.
 
 - 브라우저상에서 표시할 때 적절히 처리하지 않으면 크기가 너무 커진다.
 - JPEG로 압축한 사진들과 비교하여 사진 화질의 차이를 생각보다 체감하기 어렵다.
