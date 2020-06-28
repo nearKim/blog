@@ -32,6 +32,7 @@
     a {
       font-size: 18px;
       color: $header-link-color;
+      cursor: pointer;
       svg {
         width: 16px;
         height: 16px;
@@ -44,28 +45,20 @@
   }
 }
 
-.tag-nav {
-  display: block;
-  padding-top: 20px;
-
-  .tag-links {
-    padding: 0
-  }
+.header-tags {
+  padding: 0;
+  margin: 30px 0 0;
+  list-style: none;
   li {
     display: inline-block;
-    margin-right: 7px;
-    vertical-align: middle;
-    &:first-child {
-      margin-left: 0;
-    }
+    padding-right: 10px;
     a {
-      font-size: 15px;
+      display: inline-block;
       color: $header-link-color;
       text-decoration: none;
-      padding-right: 5px;
+      &:hover { color: $header-link-color-hover; }
     }
   }
-
 }
 
 @include breakpoint(extra-small) {
@@ -81,6 +74,14 @@
       &:last-child {
         margin-right: 0;
       }
+    }
+  }
+  .header-tags {
+    margin: 20px 0 0;
+    text-align: center;
+
+    li {
+      padding: 0 5px;
     }
   }
 }
