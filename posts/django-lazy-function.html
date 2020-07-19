@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>nearKim's Facade | Django lazy 함수 파헤치기</title>
+  <meta name="description" content="Django가 제공하는 lazy 함수의 구조 및 작동방식 분석하기">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:title" content="Django lazy 함수 파헤치기">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nearkim.coffee/posts/django-lazy-function">
+  <meta property="og:description" content="Django가 제공하는 lazy 함수의 구조 및 작동방식 분석하기">
+  <meta property="og:site_name" content="nearKim's Facade">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:url" content="https://nearkim.coffee/posts/django-lazy-function">
+  <meta name="twitter:title" content="Django lazy 함수 파헤치기">
+  <meta name="twitter:description" content="Django가 제공하는 lazy 함수의 구조 및 작동방식 분석하기">
+
+  
+    <meta property="og:image" content="https://nearkim.coffee/assets/og-image-ee46bbc61b334e821e81534b1fd43f3fee6f020ec174b3c2114445695fd48c01.jpg">
+    <meta name="twitter:image" content="https://nearkim.coffee/assets/og-image-ee46bbc61b334e821e81534b1fd43f3fee6f020ec174b3c2114445695fd48c01.jpg">
+  
+
+  <link href="https://nearkim.coffee/feed.xml" type="application/rss+xml" rel="alternate" title="nearKim's Facade Last 10 blog posts" />
+
+  
+
+  
+
+    
+      <link rel="icon" type="image/x-icon" href="/assets/favicon-light-1f4425f1e3e25f63badc3598526859407d5320036677e358d9d3e13135e63c77.ico">
+      <link rel="apple-touch-icon" href="/assets/apple-touch-icon-light-87d1f2a3a19b1500e5c1626a0492025ca5f7f97d24540dc5900288e92112925a.png">
+      <link rel="stylesheet" type="text/css" href="/assets/light-4f04efe62b26f5073d4f6a7425c9ba362ffa41307a843df937937a9c2edd5436.css">
+    
+
+  
+
+</head>
+
+<body>
+  <main>
+    <div class="grid grid-centered">
+      <div class="grid-cell">
+        <nav class="header-nav scrollappear">
+  <a href="/" class="header-logo" title="nearKim's Facade">nearKim's Facade</a>
+  <ul class="header-links">
+    
+      <li>
+        <a href="/about" title="About me">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-about">
+  <use href="/assets/about-ecf154b571ab8034ae00aeed91a3b7ad68db80b46d958753ad6216c919486e88.svg#icon-about" xlink:href="/assets/about-ecf154b571ab8034ae00aeed91a3b7ad68db80b46d958753ad6216c919486e88.svg#icon-about"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+    
+    
+    
+      <li>
+        <a href="https://github.com/nearKim" rel="noreferrer noopener" target="_blank" title="GitHub">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-github">
+  <use href="/assets/github-094f81040819f34343ee6ffff0980f17e2807b08b595eaaf66ae3554934fd78d.svg#icon-github" xlink:href="/assets/github-094f81040819f34343ee6ffff0980f17e2807b08b595eaaf66ae3554934fd78d.svg#icon-github"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+    
+    
+    
+    
+    
+      <li>
+        <a href="https://www.linkedin.com/in/인근-김-60679615b" rel="noreferrer noopener" target="_blank" title="LinkedIn">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-linkedin">
+  <use href="/assets/linkedin-cdc5c107044324a3dfbea2e9ead15873f8dee304c37d73a046988956b706256e.svg#icon-linkedin" xlink:href="/assets/linkedin-cdc5c107044324a3dfbea2e9ead15873f8dee304c37d73a046988956b706256e.svg#icon-linkedin"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+    
+    
+      <li>
+        <a href="https://instagram.com/near.kim" rel="noreferrer noopener" target="_blank" title="Instagram">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-instagram">
+  <use href="/assets/instagram-37f85bc75b43ecc4c114d9a46f846327fe13c5893787c6afbcfef9d30d58bd9e.svg#icon-instagram" xlink:href="/assets/instagram-37f85bc75b43ecc4c114d9a46f846327fe13c5893787c6afbcfef9d30d58bd9e.svg#icon-instagram"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      <li>
+        <a href="mailto:garfield@snu.ac.kr" title="Email">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-email">
+  <use href="/assets/email-782473193bf750036fdb90e8daa075508a20509d01854c09f3237c144a3f0601.svg#icon-email" xlink:href="/assets/email-782473193bf750036fdb90e8daa075508a20509d01854c09f3237c144a3f0601.svg#icon-email"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+    
+  </ul>
+</nav>
+
+
+  <ul class="header-tags scrollappear">
+    
+    
+      
+        <li><a href="/tag/algorithm">Algorithm</a></li>
+    
+      
+        <li><a href="/tag/aws">Aws</a></li>
+    
+      
+        <li><a href="/tag/devops">Devops</a></li>
+    
+      
+        <li><a href="/tag/django">Django</a></li>
+    
+      
+        <li><a href="/tag/javascript">Javascript</a></li>
+    
+      
+        <li><a href="/tag/python">Python</a></li>
+    
+      
+        <li><a href="/tag/tutorial">Tutorial</a></li>
+    
+  </ul>
+
+
+
+        <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+        <article class="article scrollappear">
+          <header class="article-header">
+            <h1>Django lazy 함수 파헤치기</h1>
+            <p>Django가 제공하는 lazy 함수의 구조 및 작동방식 분석하기</p>
+            <div class="article-list-footer">
+  <span class="article-list-date">
+    July 12, 2020
+  </span>
+  <span class="article-list-divider">-</span>
+  <span class="article-list-minutes">
+    
+    
+      7 minute read
+    
+  </span>
+  <span class="article-list-divider">-</span>
+  <div class="article-list-tags">
+    
+      
+      <a href="/tag/python" title="See all posts with tag 'python'">python</a>
+    
+      
+      <a href="/tag/django" title="See all posts with tag 'django'">django</a>
+    
+  </div>
+</div>
+          </header>
+
+          <div class="article-content">
+            <p>Django의 <code class="highlighter-rouge">reverse()</code> 함수는 viewname과 args 및 kwargs를 인자로 받아 url string을 반환한다.</p>
+
+<p>예컨대 <strong>news</strong> app에 다음과 같은 url이 등록되어 있다고 하자.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">news</span> <span class="kn">import</span> <span class="n">views</span>
+
+<span class="n">path</span><span class="p">(</span><span class="s">'archive'</span><span class="p">,</span> <span class="n">views</span><span class="p">.</span><span class="n">archive</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">'news-archive'</span><span class="p">)</span></code></pre></figure>
+
+<p>이 때 어떤 View 함수에서 위 url로 리다이렉트하고 싶다면 다음과 같이 사용한다.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">reverse</span>
+
+<span class="k">def</span> <span class="nf">myview</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">HttpResponseRedirect</span><span class="p">(</span><span class="n">reverse</span><span class="p">(</span><span class="s">'news:news-archive'</span><span class="p">))</span></code></pre></figure>
+
+<p><code class="highlighter-rouge">reverse()</code>함수를 사용하면, url이 변경되더라도 View의 코드를 수정할 필요가 없다. 일반적으로 url이 수정될 확률이 높은 점을 고려하면 합리적인 설계라 할 것이다.</p>
+
+<h1 id="reverse_lazy">reverse_lazy()</h1>
+
+<p>reverse_lazy는 reverse와 동일한 동작을 함수 호출시 곧바로 처리하지 않고, 나중에 해당 변수가 직접 접근되거나 메서드가 호출되었을 때 evaluate한다.</p>
+
+<p><code class="highlighter-rouge">reverse</code>는 내부에서 urlconf를 참조하기 때문에 제대로 동작하기 위해서는 프로젝트의 <strong>urlconf</strong>가 모두 로드되어야 한다. 그러나 때에 따라 urlconf가 로드되기 전에 해당 값을 참조해야 할 수도 있다.</p>
+
+<p>예컨대 아래의 경우 reverse로 success_url을 정의하면 동작하지 않는다.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">JobCreateView</span><span class="p">(</span><span class="n">CreateView</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s">'company/job.html'</span>
+    <span class="n">form_class</span> <span class="o">=</span> <span class="n">JobForm</span>
+    <span class="n">success_url</span> <span class="o">=</span> <span class="n">reverse_lazy</span><span class="p">(</span><span class="s">'job'</span><span class="p">)</span>
+    <span class="c1"># FIXME
+</span>    <span class="c1"># success_url = reverse('job')</span></code></pre></figure>
+
+<p>이는 Python은 모듈이 import될 때 class들을 evaluate하기 때문이다.</p>
+<details>
+<summary>예시</summary>
+<p>
+
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c1"># test.py
+</span><span class="k">def</span> <span class="nf">a</span><span class="p">():</span>
+	<span class="k">print</span><span class="p">(</span><span class="s">'test1'</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">B</span><span class="p">:</span>
+	<span class="k">print</span><span class="p">(</span><span class="s">'test2'</span><span class="p">)</span></code></pre></figure>
+
+
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="o">&gt;&gt;&gt;</span> import <span class="nb">test</span>
+<span class="o">&gt;&gt;&gt;</span> test2</code></pre></figure>
+
+
+</p>
+</details>
+
+<p><br />
+따라서 이 경우 <code class="highlighter-rouge">success_url</code>을 <code class="highlighter-rouge">reverse_lazy</code>를 사용하여 정의하고, 나중에 필요할 때 reverse가 일어나도록 해야한다.</p>
+
+<p>그렇다면 어떻게 이런 동작이 가능할 것일까?</p>
+
+<p>Django의 소스코드를 보면 정의는 간단하다.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">reverse_lazy</span> <span class="o">=</span> <span class="n">lazy</span><span class="p">(</span><span class="n">reverse</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span></code></pre></figure>
+
+<h1 id="lazy">lazy</h1>
+
+<p>소스코드의 lazy 함수의 정의를 살펴보면 아래와 같다.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">lazy</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">resultclasses</span><span class="p">):</span>
+	<span class="k">class</span> <span class="nc">__proxy__</span><span class="p">(</span><span class="n">Promise</span><span class="p">):</span>
+		<span class="c1"># pass
+</span>
+	<span class="o">@</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+	<span class="k">def</span> <span class="nf">__wrapper__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+		<span class="k">return</span> <span class="n">__proxy__</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kw</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">__wrapper__</span></code></pre></figure>
+
+<p>편의상 <code class="highlighter-rouge">__proxy__</code>의 코드를 일단 생략하자. 위 함수의 동작은 명확하다.</p>
+
+<p><code class="highlighter-rouge">lazy</code>함수는 <code class="highlighter-rouge">wraps(func)</code>로 데코레이팅 된 <code class="highlighter-rouge">__wrapper__</code>함수, 즉 <code class="highlighter-rouge">wraps(func)(__wrapper__)</code>를 반환한다.</p>
+
+<h2 id="wraps">@wraps</h2>
+
+<p>wraps 데코레이터는 Python functools 모듈에 기본 내장된 함수로, 데코레이터 적용 후에도 감싸진 함수의 기본적인 성질을 잃지 않도록 해준다.</p>
+
+<p>Decorator를 적용하면, decorator 내부의 closure를 반환하게 된다. 이는 함수의 이름을 비롯한 어트리뷰트가 바뀌는 side effect를 발생시킨다.</p>
+
+<details>
+<summary>예시</summary>
+<p>
+
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">counter</span><span class="p">(</span><span class="n">fn</span><span class="p">):</span>
+	<span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+	<span class="k">def</span> <span class="nf">inner</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+		<span class="k">nonlocal</span> <span class="n">count</span>
+		<span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+		<span class="k">print</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+	<span class="n">inner</span> <span class="o">=</span> <span class="n">wraps</span><span class="p">(</span><span class="n">fn</span><span class="p">)(</span><span class="n">inner</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">inner</span>
+
+<span class="o">@</span><span class="n">counter</span>
+<span class="k">def</span> <span class="nf">mult</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+	<span class="k">pass</span>
+
+<span class="n">mult</span><span class="p">.</span><span class="n">__name__</span>  <span class="c1"># inner
+</span><span class="n">help</span><span class="p">(</span><span class="n">mult</span><span class="p">)</span></code></pre></figure>
+
+
+- decorator가 적용되면 반환된 함수는 counter 함수 내부의 inner이기 때문에 함수 이름이 inner로 변경된다.
+
+</p>
+</details>
+
+<p>따라서 이러한 문제를 방지하기 위해 <code class="highlighter-rouge">wraps</code> 함수는 자신이 래핑하고 있는 함수 (func)의 어트리뷰트를 뽑아내어 자신이 반환할 함수에 넣어준다.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">wraps</span><span class="p">(</span><span class="n">wrapped</span><span class="p">,</span>
+          <span class="n">assigned</span> <span class="o">=</span> <span class="n">WRAPPER_ASSIGNMENTS</span><span class="p">,</span>
+          <span class="n">updated</span> <span class="o">=</span> <span class="n">WRAPPER_UPDATES</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">partial</span><span class="p">(</span><span class="n">update_wrapper</span><span class="p">,</span> <span class="n">wrapped</span><span class="o">=</span><span class="n">wrapped</span><span class="p">,</span>
+                   <span class="n">assigned</span><span class="o">=</span><span class="n">assigned</span><span class="p">,</span> <span class="n">updated</span><span class="o">=</span><span class="n">updated</span><span class="p">)</span></code></pre></figure>
+
+<ul>
+  <li>
+    <p>이 데코레이터는 update_wrapper의 3가지 인자에 기본값을 넣은 새로운 함수를 <code class="highlighter-rouge">partial</code>을 통해 생성하여 반환한다.</p>
+  </li>
+  <li>
+    <p>데코레이터 첫번째 인자인 <strong>wrapped</strong>는 <code class="highlighter-rouge">func</code>이고 나머지는 따로 값을 부여하지 않았으므로 기본값이 들어간다</p>
+  </li>
+</ul>
+
+<h3 id="update_wrapper">update_wrapper</h3>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">WRAPPER_ASSIGNMENTS</span> <span class="o">=</span> <span class="p">(</span><span class="s">'__module__'</span><span class="p">,</span> <span class="s">'__name__'</span><span class="p">,</span> <span class="s">'__qualname__'</span><span class="p">,</span> <span class="s">'__doc__'</span><span class="p">,</span>
+                       <span class="s">'__annotations__'</span><span class="p">)</span>
+<span class="n">WRAPPER_UPDATES</span> <span class="o">=</span> <span class="p">(</span><span class="s">'__dict__'</span><span class="p">,)</span>
+
+<span class="k">def</span> <span class="nf">update_wrapper</span><span class="p">(</span><span class="n">wrapper</span><span class="p">,</span>
+                   <span class="n">wrapped</span><span class="p">,</span>
+                   <span class="n">assigned</span> <span class="o">=</span> <span class="n">WRAPPER_ASSIGNMENTS</span><span class="p">,</span>
+                   <span class="n">updated</span> <span class="o">=</span> <span class="n">WRAPPER_UPDATES</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">assigned</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">wrapped</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+        <span class="k">except</span> <span class="nb">AttributeError</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">wrapper</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">updated</span><span class="p">:</span>
+        <span class="nb">getattr</span><span class="p">(</span><span class="n">wrapper</span><span class="p">,</span> <span class="n">attr</span><span class="p">).</span><span class="n">update</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">wrapped</span><span class="p">,</span> <span class="n">attr</span><span class="p">,</span> <span class="p">{}))</span>
+    <span class="n">wrapper</span><span class="p">.</span><span class="n">__wrapped__</span> <span class="o">=</span> <span class="n">wrapped</span>
+    <span class="c1"># Return the wrapper so this can be used as a decorator via partial()
+</span>    <span class="k">return</span> <span class="n">wrapper</span></code></pre></figure>
+
+<ul>
+  <li><code class="highlighter-rouge">wrapped</code>로부터 WRAPPER_ASSIGNMENTS로 정의된 어트리뷰트들을 뽑아낸 후,</li>
+  <li><code class="highlighter-rouge">wrapper</code>에 그 값을 그대로 넣어준다.</li>
+  <li><code class="highlighter-rouge">wrapped</code>로부터 WRAPPER_UPDATES로 정의된 어트리뷰트들을 뽑아낸 후,</li>
+  <li><code class="highlighter-rouge">wrapper</code>에 그 값을 추가하여 업데이트한다.</li>
+  <li><code class="highlighter-rouge">wrapper</code>에 무엇을 래핑했는지를 <code class="highlighter-rouge">__wrapped__</code> 로 넣어준 후 반환한다.</li>
+</ul>
+
+<h3 id="중간정리">중간정리</h3>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">@</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">__wrapper__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+	<span class="c1"># Creates the proxy object, instead of the actual value.
+</span>	<span class="k">return</span> <span class="n">__proxy__</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kw</span><span class="p">)</span>
+<span class="k">return</span> <span class="n">__wrapper__</span></code></pre></figure>
+
+<p>위 코드는 결국 아래와 같다.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">__wrapper__</span> <span class="o">=</span> <span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)(</span><span class="n">__wrapper__</span><span class="p">)</span>
+<span class="n">__wrapper__</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">update_wrapper</span><span class="p">,</span> <span class="n">wrapped</span><span class="o">=</span><span class="n">func</span><span class="p">,</span> <span class="n">assigned</span><span class="o">=</span><span class="n">WRAPPER_ASSIGNMENTS</span><span class="p">,</span> <span class="n">updated</span><span class="o">=</span><span class="n">WRAPPER_UPDATES</span><span class="p">)(</span><span class="n">__wrapper__</span><span class="p">)</span>
+
+<span class="n">__wrapper__</span> <span class="o">=</span> <span class="n">update_wrapper</span><span class="p">(</span><span class="n">__wrapper__</span><span class="p">,</span> <span class="n">wrapped</span><span class="o">=</span><span class="n">func</span><span class="p">,</span> <span class="n">assigned</span><span class="o">=</span><span class="n">WRAPPER_ASSIGNMENTS</span><span class="p">,</span> <span class="n">updated</span><span class="o">=</span><span class="n">WRAPPER_UPDATES</span><span class="p">)</span></code></pre></figure>
+
+<p><code class="highlighter-rouge">@wraps(func)</code>는 데코레이터가 부여된 함수__wrapper__에 <code class="highlighter-rouge">func</code>의 어트리뷰트를 인젝션한다.</p>
+
+<p><code class="highlighter-rouge">func</code>가 <code class="highlighter-rouge">str</code>을 반환하는 것과 다르게, __wrapper__는 __proxy__ 객체를 반환한다. 프록시 객체가 무엇인지 알아보자.</p>
+
+<h2 id="__proxy__">__proxy__</h2>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="o">@</span><span class="n">total_ordering</span>
+<span class="k">class</span> <span class="nc">__proxy__</span><span class="p">(</span><span class="n">Promise</span><span class="p">):</span>
+    <span class="n">__prepared</span> <span class="o">=</span> <span class="bp">False</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kw</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">__args</span> <span class="o">=</span> <span class="n">args</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">__kw</span> <span class="o">=</span> <span class="n">kw</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="p">.</span><span class="n">__prepared</span><span class="p">:</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">__prepare_class__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">__prepared</span> <span class="o">=</span> <span class="bp">True</span>
+
+	<span class="o">@</span><span class="nb">classmethod</span>
+    <span class="k">def</span> <span class="nf">__prepare_class__</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">resultclass</span> <span class="ow">in</span> <span class="n">resultclasses</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">type_</span> <span class="ow">in</span> <span class="n">resultclass</span><span class="p">.</span><span class="n">mro</span><span class="p">():</span>
+                <span class="k">for</span> <span class="n">method_name</span> <span class="ow">in</span> <span class="n">type_</span><span class="p">.</span><span class="n">__dict__</span><span class="p">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">method_name</span><span class="p">):</span>
+                        <span class="k">continue</span>
+                    <span class="n">meth</span> <span class="o">=</span> <span class="n">cls</span><span class="p">.</span><span class="n">__promise__</span><span class="p">(</span><span class="n">method_name</span><span class="p">)</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">method_name</span><span class="p">,</span> <span class="n">meth</span><span class="p">)</span>
+
+	<span class="o">@</span><span class="nb">classmethod</span>
+    <span class="k">def</span> <span class="nf">__promise__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">method_name</span><span class="p">):</span>
+        <span class="c1"># Builds a wrapper around some magic method
+</span>        <span class="k">def</span> <span class="nf">__wrapper__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">):</span>
+            <span class="c1"># Automatically triggers the evaluation of a lazy value and
+</span>            <span class="c1"># applies the given magic method of the result type.
+</span>            <span class="n">res</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="p">.</span><span class="n">__args</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="p">.</span><span class="n">__kw</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">method_name</span><span class="p">)(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">__wrapper__</span></code></pre></figure>
+
+<ul>
+  <li>__proxy__ 는 생성자에서  __prepare_class__ 를 호출한다.</li>
+</ul>
+
+<h3 id="__prepare_class__">__prepare_class__</h3>
+
+<ul>
+  <li>__prepare_class__ 는 resultclasses의 mro를 순회하며 각 mro들이 갖고 있는 모든 메소드들의 이름을 추출한다.</li>
+  <li>추출된 메소드 이름을 method_name이라고 할 때, 이를 __proxy__ 객체가 가지고 있다면 패스한다.</li>
+  <li>그렇지 않다면, __proxy__객체의 method_name 어트리뷰트로 <code class="highlighter-rouge">cls.__promise__(method_name)</code>을 넣어준다.</li>
+</ul>
+
+<p>즉, __prepare_class__는 __proxy__ 객체가 resultclasses의 모든 어트리뷰트를 <code class="highlighter-rouge">cls.__promise__(method_name)</code>의 형태로 promisify 하여 들고있게한다.</p>
+
+<h3 id="__promise__cls-method_name">__promise__(cls, method_name)</h3>
+
+<ul>
+  <li>이 함수는 inner function인 __wrapper__를 반환한다.</li>
+  <li>__wrapper__는 <strong>호출되었을 때, <code class="highlighter-rouge">func</code>를 evaluate</strong>한다. 그리고 evaluate한 결과값으로부터 method_name을 가진 메서드를 추출한 후, <strong>추출된 메서드를 호출</strong>한다.</li>
+</ul>
+
+<p>즉, __proxy__의 함수 “method_name”이 호출되면, 그 때 <code class="highlighter-rouge">func</code>가 evaluate되고, 그 결과값의 “method_name”이 대신 호출된다.</p>
+
+<p>따라서 <code class="highlighter-rouge">__proxy__(args, kw).{method_name}</code>은 곧 <code class="highlighter-rouge">{func(*args, **kw)의 결과값}.{method_name}</code>이다.</p>
+
+<h3 id="중간정리-1">중간정리</h3>
+
+<p><code class="highlighter-rouge">__proxy__</code>객체의 모든 어트리뷰트 메서드들은 resultclasses들의 모든 method_name들을 free variable로 가지고 그에 바인딩된 내부함수 <code class="highlighter-rouge">__wrapper__</code>로 이루어진 closure이다.</p>
+
+<p>그리고 <code class="highlighter-rouge">__proxy__</code>의 method_name이 호출되었을 때, <code class="highlighter-rouge">func</code>가 호출된다. (lazy evaluation)</p>
+
+<p>한마디로 <code class="highlighter-rouge">__proxy__</code>객체는 resultclasses들의 탈을 쓴 프록시 객체이다.</p>
+
+<h1 id="결론">결론</h1>
+
+<p>다음 예시를 통해 위 내용을 정리해본다. 타이핑은 편의를 위해 임의로 사용하였다.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+	<span class="k">return</span> <span class="n">text</span><span class="p">.</span><span class="n">title</span><span class="p">()</span>
+
+<span class="n">lazy_func</span><span class="p">:</span> <span class="s">'__wrapper__'</span> <span class="o">=</span> <span class="n">lazy</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+<span class="n">res</span><span class="p">:</span> <span class="s">'__proxy__'</span> <span class="o">=</span> <span class="n">lazy_func</span><span class="p">(</span><span class="s">'test'</span><span class="p">)</span>
+
+<span class="n">res</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="s">'T'</span><span class="p">)</span></code></pre></figure>
+
+<ol>
+  <li><code class="highlighter-rouge">lazy_func</code>는 호출되었을 경우 <em>즉시 func를 evaluate하지 않고</em> <code class="highlighter-rouge">__proxy__</code>객체를 반환한다. 이에 따라 아직 func는 호출되지 않는다.</li>
+  <li>이 <code class="highlighter-rouge">__proxy__</code>객체는 제공된 <code class="highlighter-rouge">str</code> resultclasses를 이용하여 str클래스의 mro가 가지고 있는 모든 attribute를 들고 있다.</li>
+  <li>그 attribute들은 lazy evaluation이 일어나도록 <code class="highlighter-rouge">__proxy__.__promise__</code> 메서드를 이용하여 <code class="highlighter-rouge">__wrapper__</code>로 패치된 후 <code class="highlighter-rouge">__proxy__</code>에 인젝션된다. (promisify)</li>
+  <li><code class="highlighter-rouge">res.find('T')</code>가 호출되면 <code class="highlighter-rouge">__proxy__('test').find('T')</code>가 호출되고, 이 때 <code class="highlighter-rouge">__wrapper__</code>가 실행되면서 내부의<code class="highlighter-rouge">func</code>가 evaluate 된다. (lazy evaluation)</li>
+</ol>
+
+<p>따라서 사용자가 <code class="highlighter-rouge">res.find('T')</code>를 사용할 때<code class="highlighter-rouge">func</code>가 실행된다.</p>
+
+<p>이를 위의 Django CBV에 적용해보자.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">JobCreateView</span><span class="p">(</span><span class="n">CreateView</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s">'company/job.html'</span>
+    <span class="n">form_class</span> <span class="o">=</span> <span class="n">JobForm</span>
+    <span class="n">success_url</span> <span class="o">=</span> <span class="n">reverse_lazy</span><span class="p">(</span><span class="s">'job'</span><span class="p">)</span></code></pre></figure>
+
+<p>class가 evalaute 되더라도 <code class="highlighter-rouge">success_url</code>은 곧바로 evaluate 되지 않는다. <code class="highlighter-rouge">success_url</code>은 __proxy__객체이기에 에러가 발생하지 않는다.</p>
+
+<p>이 변수에  __proxy__ 객체이지 <code class="highlighter-rouge">str</code> 객체가 아니다. 그럼에도 문제가 일어나지 않는다. __proxy__는  <code class="highlighter-rouge">str</code>의 모든 어트리뷰트를 <code class="highlighter-rouge">__wrapper__</code>로 감싼 후 가지고 있기 때문이다.</p>
+
+<p>이후에 이 변수의 메서드가 evaluate될 때 비로소 reverse 함수가 실행되어 본래의 값을 반환하게 된다.</p>
+
+
+          </div>
+          <div class="article-share">
+            
+            
+            <a href="https://twitter.com/home?status=Django+lazy+%ED%95%A8%EC%88%98+%ED%8C%8C%ED%97%A4%EC%B9%98%EA%B8%B0%20-%20https://nearkim.coffee/posts/django-lazy-function" title="Share on Twitter" rel="noreferrer noopener" target="_blank">
+              <svg viewBox="0 0 512 512"><path d="M492 109.5c-17.4 7.7-36 12.9-55.6 15.3 20-12 35.4-31 42.6-53.6 -18.7 11.1-39.4 19.2-61.5 23.5C399.8 75.8 374.6 64 346.8 64c-53.5 0-96.8 43.4-96.8 96.9 0 7.6 0.8 15 2.5 22.1 -80.5-4-151.9-42.6-199.6-101.3 -8.3 14.3-13.1 31-13.1 48.7 0 33.6 17.2 63.3 43.2 80.7C67 210.7 52 206.3 39 199c0 0.4 0 0.8 0 1.2 0 47 33.4 86.1 77.7 95 -8.1 2.2-16.7 3.4-25.5 3.4 -6.2 0-12.3-0.6-18.2-1.8 12.3 38.5 48.1 66.5 90.5 67.3 -33.1 26-74.9 41.5-120.3 41.5 -7.8 0-15.5-0.5-23.1-1.4C62.8 432 113.7 448 168.3 448 346.6 448 444 300.3 444 172.2c0-4.2-0.1-8.4-0.3-12.5C462.6 146 479 129 492 109.5z"/></svg>
+            </a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://nearkim.coffee/posts/django-lazy-function" title="Share on Facebook" rel="noreferrer noopener" target="_blank">
+              <svg viewBox="0 0 512 512"><path d="M288 192v-38.1c0-17.2 3.8-25.9 30.5-25.9H352V64h-55.9c-68.5 0-91.1 31.4-91.1 85.3V192h-45v64h45v192h83V256h56.4l7.6-64H288z"/></svg>
+            </a>
+          </div>
+
+          
+            <div id="disqus_thread" class="article-comments"></div>
+            <script src="https://nearkim.disqus.com/embed.js" async defer></script>
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+          
+        </article>
+        <footer class="footer scrollappear">
+  <p>
+    Give a good cup of COFFEE to
+    <a href="/about" title="About me">Me</a>.
+  </p>
+</footer>
+
+      </div>
+    </div>
+  </main>
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-131005151-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-131005151-1');
+  </script>
+
+
+<script src="/assets/vendor-130c9c254effc51f3283620bc635851da7b99c20901216948f11ba72ee13317f.js" type="text/javascript"></script>
+
+
+  <script src="/assets/webfonts-96493456d319d1bf419afdf8701552d4d486fee6afd304897d4fd81eb4e0cc0b.js" type="text/javascript"></script>
+
+
+
+  <script src="/assets/scrollappear-e2da8ea567e418637e31266cc5302126eaa79f62a2273739086358b589a89ee6.js" type="text/javascript"></script>
+
+
+<script src="/assets/application-cfde13ac81ddaf4351b2e739603e2baf688d0fcc9aba613fe62bbb1c7b037fb9.js" type="text/javascript"></script>
+
+
+</body>
+</html>

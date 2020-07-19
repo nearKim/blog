@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>nearKim's Facade | Counting Inversion 알고리즘 구현</title>
+  <meta name="description" content="Counting Inversion 알고리즘을 Python으로 구현하기">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:title" content="Counting Inversion 알고리즘 구현">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nearkim.coffee/posts/inversion-count-python-implementation">
+  <meta property="og:description" content="Counting Inversion 알고리즘을 Python으로 구현하기">
+  <meta property="og:site_name" content="nearKim's Facade">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:url" content="https://nearkim.coffee/posts/inversion-count-python-implementation">
+  <meta name="twitter:title" content="Counting Inversion 알고리즘 구현">
+  <meta name="twitter:description" content="Counting Inversion 알고리즘을 Python으로 구현하기">
+
+  
+    <meta property="og:image" content="https://nearkim.coffee/assets/og-image-ee46bbc61b334e821e81534b1fd43f3fee6f020ec174b3c2114445695fd48c01.jpg">
+    <meta name="twitter:image" content="https://nearkim.coffee/assets/og-image-ee46bbc61b334e821e81534b1fd43f3fee6f020ec174b3c2114445695fd48c01.jpg">
+  
+
+  <link href="https://nearkim.coffee/feed.xml" type="application/rss+xml" rel="alternate" title="nearKim's Facade Last 10 blog posts" />
+
+  
+
+  
+
+    
+      <link rel="icon" type="image/x-icon" href="/assets/favicon-light-1f4425f1e3e25f63badc3598526859407d5320036677e358d9d3e13135e63c77.ico">
+      <link rel="apple-touch-icon" href="/assets/apple-touch-icon-light-87d1f2a3a19b1500e5c1626a0492025ca5f7f97d24540dc5900288e92112925a.png">
+      <link rel="stylesheet" type="text/css" href="/assets/light-4f04efe62b26f5073d4f6a7425c9ba362ffa41307a843df937937a9c2edd5436.css">
+    
+
+  
+
+</head>
+
+<body>
+  <main>
+    <div class="grid grid-centered">
+      <div class="grid-cell">
+        <nav class="header-nav scrollappear">
+  <a href="/" class="header-logo" title="nearKim's Facade">nearKim's Facade</a>
+  <ul class="header-links">
+    
+      <li>
+        <a href="/about" title="About me">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-about">
+  <use href="/assets/about-ecf154b571ab8034ae00aeed91a3b7ad68db80b46d958753ad6216c919486e88.svg#icon-about" xlink:href="/assets/about-ecf154b571ab8034ae00aeed91a3b7ad68db80b46d958753ad6216c919486e88.svg#icon-about"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+    
+    
+    
+      <li>
+        <a href="https://github.com/nearKim" rel="noreferrer noopener" target="_blank" title="GitHub">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-github">
+  <use href="/assets/github-094f81040819f34343ee6ffff0980f17e2807b08b595eaaf66ae3554934fd78d.svg#icon-github" xlink:href="/assets/github-094f81040819f34343ee6ffff0980f17e2807b08b595eaaf66ae3554934fd78d.svg#icon-github"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+    
+    
+    
+    
+    
+      <li>
+        <a href="https://www.linkedin.com/in/인근-김-60679615b" rel="noreferrer noopener" target="_blank" title="LinkedIn">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-linkedin">
+  <use href="/assets/linkedin-cdc5c107044324a3dfbea2e9ead15873f8dee304c37d73a046988956b706256e.svg#icon-linkedin" xlink:href="/assets/linkedin-cdc5c107044324a3dfbea2e9ead15873f8dee304c37d73a046988956b706256e.svg#icon-linkedin"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+    
+    
+      <li>
+        <a href="https://instagram.com/near.kim" rel="noreferrer noopener" target="_blank" title="Instagram">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-instagram">
+  <use href="/assets/instagram-37f85bc75b43ecc4c114d9a46f846327fe13c5893787c6afbcfef9d30d58bd9e.svg#icon-instagram" xlink:href="/assets/instagram-37f85bc75b43ecc4c114d9a46f846327fe13c5893787c6afbcfef9d30d58bd9e.svg#icon-instagram"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      <li>
+        <a href="mailto:garfield@snu.ac.kr" title="Email">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-email">
+  <use href="/assets/email-782473193bf750036fdb90e8daa075508a20509d01854c09f3237c144a3f0601.svg#icon-email" xlink:href="/assets/email-782473193bf750036fdb90e8daa075508a20509d01854c09f3237c144a3f0601.svg#icon-email"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+    
+  </ul>
+</nav>
+
+
+  <ul class="header-tags scrollappear">
+    
+    
+      
+        <li><a href="/tag/algorithm">Algorithm</a></li>
+    
+      
+        <li><a href="/tag/aws">Aws</a></li>
+    
+      
+        <li><a href="/tag/devops">Devops</a></li>
+    
+      
+        <li><a href="/tag/django">Django</a></li>
+    
+      
+        <li><a href="/tag/javascript">Javascript</a></li>
+    
+      
+        <li><a href="/tag/python">Python</a></li>
+    
+      
+        <li><a href="/tag/tutorial">Tutorial</a></li>
+    
+  </ul>
+
+
+
+        <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+        <article class="article scrollappear">
+          <header class="article-header">
+            <h1>Counting Inversion 알고리즘 구현</h1>
+            <p>Counting Inversion 알고리즘을 Python으로 구현하기</p>
+            <div class="article-list-footer">
+  <span class="article-list-date">
+    May 21, 2019
+  </span>
+  <span class="article-list-divider">-</span>
+  <span class="article-list-minutes">
+    
+    
+      4 minute read
+    
+  </span>
+  <span class="article-list-divider">-</span>
+  <div class="article-list-tags">
+    
+      
+      <a href="/tag/algorithm" title="See all posts with tag 'algorithm'">algorithm</a>
+    
+      
+      <a href="/tag/python" title="See all posts with tag 'python'">python</a>
+    
+  </div>
+</div>
+          </header>
+
+          <div class="article-content">
+            <h1 id="목표-정의">목표 정의</h1>
+<p>주어진 Array의 <a href="inversion-count-algorithm">Inversion쌍의 갯수를 구하는 알고리즘</a>을 Python을 사용하여 구현하고 검증한다. 다만 편의를 위해 증복값은 존재하지 않는다고 가정한다.</p>
+
+<h1 id="pseudocode">Pseudocode</h1>
+<p>이전 포스팅에서 본 바와 같이 우리는 <code class="highlighter-rouge">SortAndCountInversion</code>, <code class="highlighter-rouge">MergeAndCountInversion</code> 2개의 함수가 필요하다는 것을 알고 있다. 해당 Pseudocode를 수정하여 Python으로 구현해본다.</p>
+
+<h1 id="python-code-작성">Python code 작성</h1>
+<p>Pseudocode에서는 편의상 각 함수가 Array 의 length를 인자로 받았다. 그러나 함수 내부에서 Array를 이용하여 length를 구할 수 있으므로 구현에서는 제외한다.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">sortAndCountInversion</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
+    <span class="s">"""
+    arr를 중점을 기준으로 좌,우로 분할하여 각각의 inversion의 갯수를 센다.
+    split inversion의 경우 merge sort를 응용하여 갯수를 센다.
+    """</span>
+    <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+
+    <span class="c1"># Initialize
+</span>    <span class="k">if</span> <span class="n">length</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">arr</span><span class="p">,</span> <span class="mi">0</span>
+
+    <span class="c1"># Divide &amp; Conquer
+</span>    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[:</span><span class="n">length</span><span class="o">//</span><span class="mi">2</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">length</span><span class="o">//</span><span class="mi">2</span><span class="p">:]</span>
+    <span class="n">sorted_a</span><span class="p">,</span> <span class="n">left_inversions</span> <span class="o">=</span> <span class="n">sortAndCountInversion</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="n">sorted_b</span><span class="p">,</span> <span class="n">right_inversions</span> <span class="o">=</span> <span class="n">sortAndCountInversion</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+    <span class="n">sorted_arr</span><span class="p">,</span> <span class="n">split_inversions</span> <span class="o">=</span> <span class="n">mergeAndCountInversion</span><span class="p">(</span><span class="n">sorted_a</span><span class="p">,</span> <span class="n">sorted_b</span><span class="p">)</span>
+
+    <span class="c1"># Combine
+</span>    <span class="n">total_inversions</span> <span class="o">=</span> <span class="n">left_inversions</span> <span class="o">+</span> <span class="n">right_inversions</span> <span class="o">+</span> <span class="n">split_inversions</span>
+
+    <span class="k">return</span> <span class="n">sorted_arr</span><span class="p">,</span> <span class="n">total_inversions</span></code></pre></figure>
+
+<ul>
+  <li>길이가 1개인 배열이 들어오면 바로 반환하고 inversion은 당연히 0이다</li>
+  <li>중점을 기준으로 분할한다. 물론 홀수갯수인 경우 비대칭분할이 될 것이다.</li>
+  <li>각각을 재귀적으로 계산하여 left_inversions과 right_inversions을 구한다</li>
+  <li>정렬된 좌,우 배열을 이용하여 split_inversions의 갯수를 구하고 merge sort로 정렬한다.</li>
+  <li>완전히 정렬된 배열과 전체 inversion 갯수를 반환한다.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">mergeAndCountInversion</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="s">"""
+    정렬된 두개의 배열 a, b 를 받아 완전히 정렬된 배열 c와 a, b사이에 존재하는 split inversion 갯수를 반환한다.
+    """</span>
+    <span class="n">lena</span><span class="p">,</span> <span class="n">lenb</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+    <span class="n">sorted_arr</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">total_split_inversion</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># a, b의 원소를 가리킬 포인터 변수 초기화
+</span>    <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,)</span><span class="o">*</span><span class="mi">2</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">lena</span> <span class="o">+</span> <span class="n">lenb</span><span class="p">):</span>
+        <span class="c1"># i, j중 하나가 끝에 도달했다면 나머지 배열 중 남은 원소들을 그대로 이어붙인다
+</span>        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="n">lena</span><span class="p">:</span>
+            <span class="n">sorted_arr</span><span class="p">.</span><span class="n">extend</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">j</span><span class="p">:])</span>
+            <span class="k">break</span>
+        <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="n">lenb</span><span class="p">:</span>
+            <span class="n">sorted_arr</span><span class="p">.</span><span class="n">extend</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">:])</span>
+            <span class="k">break</span>
+
+        <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">b</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+            <span class="n">sorted_arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">i</span><span class="o">+=</span><span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">b</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+            <span class="n">sorted_arr</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+            <span class="n">j</span><span class="o">+=</span><span class="mi">1</span>
+            <span class="n">total_inversions</span> <span class="o">+=</span> <span class="p">(</span><span class="n">lena</span><span class="o">-</span><span class="n">i</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sorted_arr</span><span class="p">,</span> <span class="n">total_inversions</span></code></pre></figure>
+
+<ul>
+  <li>Caller인 <code class="highlighter-rouge">sortAndCountInversion</code>는 Callee에게 비대칭적인 분할 배열을 넘겨줄 수 있다. 따라서 input array 각각의 길이를 저장해야 한다.</li>
+  <li>나머지는 일반적인 merge sort 알고리즘과 동일하다.</li>
+  <li>다만 배열 <code class="highlighter-rouge">b</code>에서 결과 배열 <code class="highlighter-rouge">sorted_arr</code>로의 복사가 일어난 경우, 그 시점에서 남아있는 <code class="highlighter-rouge">a</code>의 원소 갯수만큼 <code class="highlighter-rouge">total_split_inversion</code>에 더해준다.</li>
+  <li>최종적으로 merge sort로 정렬된 배열과 <code class="highlighter-rouge">total_split_inversion</code>을 리턴한다.</li>
+</ul>
+
+<h1 id="test">Test</h1>
+<p><code class="highlighter-rouge">sortAndCountInversion</code> 함수가 주어진 array에 대해 inversion의 갯수를 잘 리턴하는지 테스팅한다. 테스팅할 때 <code class="highlighter-rouge">sortAndCountInversion(testArray)[1]</code> 처럼 해도 되겠지만 편의상 로직을 감싸는 새로운 함수를 생성하여 테스팅하도록 한다.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="k">def</span> <span class="nf">countInversionWrapper</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">sortAndCountInversion</span><span class="p">(</span><span class="n">arr</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">TestCountInversion</span><span class="p">(</span><span class="n">unittest</span><span class="p">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">test_single</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">countInversionWrapper</span><span class="p">([</span><span class="mi">3</span><span class="p">]),</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">countInversionWrapper</span><span class="p">([</span><span class="mi">1913</span><span class="p">]),</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_ascending</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">countInversionWrapper</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]),</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">countInversionWrapper</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">9</span><span class="p">]),</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">countInversionWrapper</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">9999</span><span class="p">)]),</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_descending</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">countInversionWrapper</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">]),</span> <span class="mi">6</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">countInversionWrapper</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">]),</span> <span class="mi">45</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">countInversionWrapper</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)]),</span> <span class="mi">49995000</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">test_random</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">countInversionWrapper</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">]),</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">countInversionWrapper</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">]),</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">countInversionWrapper</span><span class="p">([</span><span class="mi">9</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span> <span class="mi">56</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="c1"># unittest.main(exit=False) # Python shell에서 실행할 경우 exit=False 옵션을 넣어준다.
+</span>    <span class="n">unittest</span><span class="p">.</span><span class="n">main</span><span class="p">()</span></code></pre></figure>
+
+<ul>
+  <li>주어진 배열이 오름차순일 경우 inversion은 없어야 한다.</li>
+  <li>주어진 배열이 내림차순일 경우 배열의 길이가 n이라면, inversion의 갯수는 <script type="math/tex">\frac{n(n-1)}{2}</script> 개이다.</li>
+  <li>기타 랜덤하게 주어진 배열들을 테스트해본다.</li>
+</ul>
+
+<p>결과는 다음과 같다.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">....
+<span class="nt">----------------------------------------------------------------------</span>
+Ran 4 tests <span class="k">in </span>0.090s
+
+OK</code></pre></figure>
+
+<p>이로써 검증이 완료되었다.</p>
+
+
+          </div>
+          <div class="article-share">
+            
+            
+            <a href="https://twitter.com/home?status=Counting+Inversion+%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98+%EA%B5%AC%ED%98%84%20-%20https://nearkim.coffee/posts/inversion-count-python-implementation" title="Share on Twitter" rel="noreferrer noopener" target="_blank">
+              <svg viewBox="0 0 512 512"><path d="M492 109.5c-17.4 7.7-36 12.9-55.6 15.3 20-12 35.4-31 42.6-53.6 -18.7 11.1-39.4 19.2-61.5 23.5C399.8 75.8 374.6 64 346.8 64c-53.5 0-96.8 43.4-96.8 96.9 0 7.6 0.8 15 2.5 22.1 -80.5-4-151.9-42.6-199.6-101.3 -8.3 14.3-13.1 31-13.1 48.7 0 33.6 17.2 63.3 43.2 80.7C67 210.7 52 206.3 39 199c0 0.4 0 0.8 0 1.2 0 47 33.4 86.1 77.7 95 -8.1 2.2-16.7 3.4-25.5 3.4 -6.2 0-12.3-0.6-18.2-1.8 12.3 38.5 48.1 66.5 90.5 67.3 -33.1 26-74.9 41.5-120.3 41.5 -7.8 0-15.5-0.5-23.1-1.4C62.8 432 113.7 448 168.3 448 346.6 448 444 300.3 444 172.2c0-4.2-0.1-8.4-0.3-12.5C462.6 146 479 129 492 109.5z"/></svg>
+            </a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://nearkim.coffee/posts/inversion-count-python-implementation" title="Share on Facebook" rel="noreferrer noopener" target="_blank">
+              <svg viewBox="0 0 512 512"><path d="M288 192v-38.1c0-17.2 3.8-25.9 30.5-25.9H352V64h-55.9c-68.5 0-91.1 31.4-91.1 85.3V192h-45v64h45v192h83V256h56.4l7.6-64H288z"/></svg>
+            </a>
+          </div>
+
+          
+            <div id="disqus_thread" class="article-comments"></div>
+            <script src="https://nearkim.disqus.com/embed.js" async defer></script>
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+          
+        </article>
+        <footer class="footer scrollappear">
+  <p>
+    Give a good cup of COFFEE to
+    <a href="/about" title="About me">Me</a>.
+  </p>
+</footer>
+
+      </div>
+    </div>
+  </main>
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-131005151-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-131005151-1');
+  </script>
+
+
+<script src="/assets/vendor-130c9c254effc51f3283620bc635851da7b99c20901216948f11ba72ee13317f.js" type="text/javascript"></script>
+
+
+  <script src="/assets/webfonts-96493456d319d1bf419afdf8701552d4d486fee6afd304897d4fd81eb4e0cc0b.js" type="text/javascript"></script>
+
+
+
+  <script src="/assets/scrollappear-e2da8ea567e418637e31266cc5302126eaa79f62a2273739086358b589a89ee6.js" type="text/javascript"></script>
+
+
+<script src="/assets/application-cfde13ac81ddaf4351b2e739603e2baf688d0fcc9aba613fe62bbb1c7b037fb9.js" type="text/javascript"></script>
+
+
+</body>
+</html>

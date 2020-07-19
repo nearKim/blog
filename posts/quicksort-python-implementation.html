@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>nearKim's Facade | Quicksort 알고리즘 구현</title>
+  <meta name="description" content="Quicksort 알고리즘을 Python을 이용하여 구현하기">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:title" content="Quicksort 알고리즘 구현">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nearkim.coffee/posts/quicksort-python-implementation">
+  <meta property="og:description" content="Quicksort 알고리즘을 Python을 이용하여 구현하기">
+  <meta property="og:site_name" content="nearKim's Facade">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:url" content="https://nearkim.coffee/posts/quicksort-python-implementation">
+  <meta name="twitter:title" content="Quicksort 알고리즘 구현">
+  <meta name="twitter:description" content="Quicksort 알고리즘을 Python을 이용하여 구현하기">
+
+  
+    <meta property="og:image" content="https://nearkim.coffee/assets/og-image-ee46bbc61b334e821e81534b1fd43f3fee6f020ec174b3c2114445695fd48c01.jpg">
+    <meta name="twitter:image" content="https://nearkim.coffee/assets/og-image-ee46bbc61b334e821e81534b1fd43f3fee6f020ec174b3c2114445695fd48c01.jpg">
+  
+
+  <link href="https://nearkim.coffee/feed.xml" type="application/rss+xml" rel="alternate" title="nearKim's Facade Last 10 blog posts" />
+
+  
+
+  
+
+    
+      <link rel="icon" type="image/x-icon" href="/assets/favicon-light-1f4425f1e3e25f63badc3598526859407d5320036677e358d9d3e13135e63c77.ico">
+      <link rel="apple-touch-icon" href="/assets/apple-touch-icon-light-87d1f2a3a19b1500e5c1626a0492025ca5f7f97d24540dc5900288e92112925a.png">
+      <link rel="stylesheet" type="text/css" href="/assets/light-4f04efe62b26f5073d4f6a7425c9ba362ffa41307a843df937937a9c2edd5436.css">
+    
+
+  
+
+</head>
+
+<body>
+  <main>
+    <div class="grid grid-centered">
+      <div class="grid-cell">
+        <nav class="header-nav scrollappear">
+  <a href="/" class="header-logo" title="nearKim's Facade">nearKim's Facade</a>
+  <ul class="header-links">
+    
+      <li>
+        <a href="/about" title="About me">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-about">
+  <use href="/assets/about-ecf154b571ab8034ae00aeed91a3b7ad68db80b46d958753ad6216c919486e88.svg#icon-about" xlink:href="/assets/about-ecf154b571ab8034ae00aeed91a3b7ad68db80b46d958753ad6216c919486e88.svg#icon-about"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+    
+    
+    
+      <li>
+        <a href="https://github.com/nearKim" rel="noreferrer noopener" target="_blank" title="GitHub">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-github">
+  <use href="/assets/github-094f81040819f34343ee6ffff0980f17e2807b08b595eaaf66ae3554934fd78d.svg#icon-github" xlink:href="/assets/github-094f81040819f34343ee6ffff0980f17e2807b08b595eaaf66ae3554934fd78d.svg#icon-github"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+    
+    
+    
+    
+    
+      <li>
+        <a href="https://www.linkedin.com/in/인근-김-60679615b" rel="noreferrer noopener" target="_blank" title="LinkedIn">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-linkedin">
+  <use href="/assets/linkedin-cdc5c107044324a3dfbea2e9ead15873f8dee304c37d73a046988956b706256e.svg#icon-linkedin" xlink:href="/assets/linkedin-cdc5c107044324a3dfbea2e9ead15873f8dee304c37d73a046988956b706256e.svg#icon-linkedin"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+    
+    
+      <li>
+        <a href="https://instagram.com/near.kim" rel="noreferrer noopener" target="_blank" title="Instagram">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-instagram">
+  <use href="/assets/instagram-37f85bc75b43ecc4c114d9a46f846327fe13c5893787c6afbcfef9d30d58bd9e.svg#icon-instagram" xlink:href="/assets/instagram-37f85bc75b43ecc4c114d9a46f846327fe13c5893787c6afbcfef9d30d58bd9e.svg#icon-instagram"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      <li>
+        <a href="mailto:garfield@snu.ac.kr" title="Email">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-email">
+  <use href="/assets/email-782473193bf750036fdb90e8daa075508a20509d01854c09f3237c144a3f0601.svg#icon-email" xlink:href="/assets/email-782473193bf750036fdb90e8daa075508a20509d01854c09f3237c144a3f0601.svg#icon-email"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+    
+  </ul>
+</nav>
+
+
+  <ul class="header-tags scrollappear">
+    
+    
+      
+        <li><a href="/tag/algorithm">Algorithm</a></li>
+    
+      
+        <li><a href="/tag/aws">Aws</a></li>
+    
+      
+        <li><a href="/tag/devops">Devops</a></li>
+    
+      
+        <li><a href="/tag/django">Django</a></li>
+    
+      
+        <li><a href="/tag/javascript">Javascript</a></li>
+    
+      
+        <li><a href="/tag/python">Python</a></li>
+    
+      
+        <li><a href="/tag/tutorial">Tutorial</a></li>
+    
+  </ul>
+
+
+
+        <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+        <article class="article scrollappear">
+          <header class="article-header">
+            <h1>Quicksort 알고리즘 구현</h1>
+            <p>Quicksort 알고리즘을 Python을 이용하여 구현하기</p>
+            <div class="article-list-footer">
+  <span class="article-list-date">
+    June 6, 2019
+  </span>
+  <span class="article-list-divider">-</span>
+  <span class="article-list-minutes">
+    
+    
+      3 minute read
+    
+  </span>
+  <span class="article-list-divider">-</span>
+  <div class="article-list-tags">
+    
+      
+      <a href="/tag/algorithm" title="See all posts with tag 'algorithm'">algorithm</a>
+    
+      
+      <a href="/tag/python" title="See all posts with tag 'python'">python</a>
+    
+  </div>
+</div>
+          </header>
+
+          <div class="article-content">
+            <h1 id="목표-정의">목표 정의</h1>
+<p>랜덤하게 선택된 pivot을 사용한 <a href="quicksort-algorithm">Quicksort 알고리즘</a>을 Python을 사용하여 구현한다. 중복값은 고려하지 않는다.</p>
+
+<h1 id="python-code-작성">Python code 작성</h1>
+
+<h3 id="quicksort">Quicksort</h3>
+<p>전형적인 분할정복 알고리즘을 구현할 때와 같이 함수를 구현한다.</p>
+
+<p>다만 편의를 위하여 <b>pivot이 정해진 뒤 곧바로 배열의 첫번째 원소와 swap한다고 가정</b>한다. 이는 1회의 추가 연산이지만, 실행속도에 큰 영향을 주지 않는 범위에서 코드의 복잡도를 줄여준다.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">random</span>
+
+<span class="k">def</span> <span class="nf">quicksort</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">arr</span>
+
+    <span class="n">pivot_idx</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">pivot_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">pivot_idx</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Swap
+</span>    <span class="n">pivot</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">arr</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">arr</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">pivot</span><span class="p">:</span>
+            <span class="n">swap</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
+            <span class="n">i</span><span class="o">+=</span><span class="mi">1</span>
+    <span class="c1"># Pivot swap
+</span>    <span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Divide &amp; Conquer
+</span>    <span class="n">left_arr</span> <span class="o">=</span> <span class="n">quicksort</span><span class="p">(</span><span class="n">arr</span><span class="p">[:</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">right_arr</span> <span class="o">=</span> <span class="n">quicksort</span><span class="p">(</span><span class="n">arr</span><span class="p">[</span><span class="n">i</span><span class="p">:])</span>
+
+    <span class="n">total_arr</span> <span class="o">=</span> <span class="n">left_arr</span> <span class="o">+</span> <span class="p">[</span><span class="n">pivot</span><span class="p">]</span> <span class="o">+</span> <span class="n">right_arr</span>
+
+    <span class="k">return</span> <span class="n">total_arr</span></code></pre></figure>
+
+<ul>
+  <li>가능한 arr의 인덱스 중 하나를 랜덤하게 pivot으로 선택한다.</li>
+  <li>편의를 위해 pivot을 현재 arr의 첫번째 원소와 swap 한다.</li>
+  <li>arr를 선형탐색하면서 pivot보다 작은 원소는 swap을 통해 좌측 부분배열에 넣어준다.</li>
+  <li>선형탐색이 종료되었으면, 좌측 부분배열의 마지막 원소와 pivot을 swap한다. (Partition의 종결)</li>
+  <li>좌,우측 부분배열 각각 recursive하게 적용한다</li>
+</ul>
+
+<h1 id="test">Test</h1>
+<p>새로운 Wrapper 함수를 생성하여 unittest를 수행한다. Python에 기본으로 내장된 <code class="highlighter-rouge">sort()</code>와 비교하면 될 것이다.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">unittest</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="k">class</span> <span class="nc">TestQuicksort</span><span class="p">(</span><span class="n">unittest</span><span class="p">.</span><span class="n">TestCase</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">test_single</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">quicksort</span><span class="p">([]),</span> <span class="p">[])</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">quicksort</span><span class="p">([</span><span class="mi">3</span><span class="p">]),</span> <span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">quicksort</span><span class="p">([</span><span class="mi">193</span><span class="p">]),</span> <span class="p">[</span><span class="mi">193</span><span class="p">])</span>
+    <span class="k">def</span> <span class="nf">test_sort</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+            <span class="n">test_list</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">),</span> <span class="mi">10</span><span class="p">)</span>
+            <span class="c1">### WARNING! ###
+</span>            <span class="bp">self</span><span class="p">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">quicksort</span><span class="p">(</span><span class="n">test_list</span><span class="p">),</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">test_list</span><span class="p">))</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="c1"># unittest.main(exit=False) # Python shell에서 실행할 경우 exit=False 옵션을 넣어준다.
+</span>    <span class="n">unittest</span><span class="p">.</span><span class="n">main</span><span class="p">()</span></code></pre></figure>
+
+<ul>
+  <li>원소가 1개이거나 없는 극한값을 테스트한다</li>
+  <li>랜덤하게 100개의 원소를 가지는 list를 생성하고 Python 기본 내장 함수와 비교한다.</li>
+</ul>
+
+<p>결과는 다음과 같다.</p>
+
+<figure class="highlight"><pre><code class="language-bash" data-lang="bash">....
+<span class="nt">----------------------------------------------------------------------</span>
+Ran 2 tests <span class="k">in </span>0.090s
+
+OK</code></pre></figure>
+
+<p>모두 잘 진행되었다.</p>
+
+<p>…라고 생각하면 <b>안된다!</b></p>
+
+<h3 id="side-effect">Side effect</h3>
+<p>위 테스트 과정에는 심각한 결함이 있다. 현재 <code class="highlighter-rouge">quicksort()</code>함수는 부작용이 존재하는 함수이다. 상술했듯이 parameter로 전달되는 list는 reference가 전달되는데, 이에 따라 함수 내부에서 arr의 원소를 변경하는 모든 과정은 전달된 reference가 가리키는 value를 직접 변형시킨다. 따라서 <code class="highlighter-rouge">WARNING!</code> 아래의 <code class="highlighter-rouge">quicksort(test_list)</code>는 <code class="highlighter-rouge">test_list</code>를 변형시킨다. 따라서 이후 <code class="highlighter-rouge">sorted(test_list)</code>에는 변형된 배열이 전달되게 된다.</p>
+
+<p>이 경우 <code class="highlighter-rouge">quicksort()</code>와 <code class="highlighter-rouge">sorted()</code>에 동일한 array가 들어가지 않으므로 우리가 원하는 테스팅이 이루어지지 않는다. 물론 위 알고리즘이 정확하고, 잘 구현되었으므로 테스트 결과는 OK일 것이지만 엄밀하게는 잘못된 테스팅을 하고 있는 것이다.</p>
+
+<p>이를 해결하기 위해서는 <code class="highlighter-rouge">quicksort()</code> 함수 자체를 실행할 때 input으로 들어온 array를 deepcopy하여 사용하거나, 애초에 테스터에 던져지는 변수를 deepcopy하여 던지면 된다. 본 절에서는 후자를 선택하지만 일반적으로 전자가 바람직하다.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c1"># ... 전략
+</span>    <span class="k">def</span> <span class="nf">test_sort</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+            <span class="n">test_list</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">),</span> <span class="mi">10</span><span class="p">)</span>
+            <span class="kn">import</span> <span class="nn">copy</span>
+            <span class="n">copied_list</span> <span class="o">=</span> <span class="n">copy</span><span class="p">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">test_list</span><span class="p">)</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">assertEqual</span><span class="p">(</span><span class="n">quicksort</span><span class="p">(</span><span class="n">copied_list</span><span class="p">),</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">test_list</span><span class="p">))</span></code></pre></figure>
+
+<p>예쁘진 않지만 로직은 정확하다.</p>
+
+<p>Quicksort 알고리즘 구현 및 검증이 완료되었다.</p>
+
+
+          </div>
+          <div class="article-share">
+            
+            
+            <a href="https://twitter.com/home?status=Quicksort+%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98+%EA%B5%AC%ED%98%84%20-%20https://nearkim.coffee/posts/quicksort-python-implementation" title="Share on Twitter" rel="noreferrer noopener" target="_blank">
+              <svg viewBox="0 0 512 512"><path d="M492 109.5c-17.4 7.7-36 12.9-55.6 15.3 20-12 35.4-31 42.6-53.6 -18.7 11.1-39.4 19.2-61.5 23.5C399.8 75.8 374.6 64 346.8 64c-53.5 0-96.8 43.4-96.8 96.9 0 7.6 0.8 15 2.5 22.1 -80.5-4-151.9-42.6-199.6-101.3 -8.3 14.3-13.1 31-13.1 48.7 0 33.6 17.2 63.3 43.2 80.7C67 210.7 52 206.3 39 199c0 0.4 0 0.8 0 1.2 0 47 33.4 86.1 77.7 95 -8.1 2.2-16.7 3.4-25.5 3.4 -6.2 0-12.3-0.6-18.2-1.8 12.3 38.5 48.1 66.5 90.5 67.3 -33.1 26-74.9 41.5-120.3 41.5 -7.8 0-15.5-0.5-23.1-1.4C62.8 432 113.7 448 168.3 448 346.6 448 444 300.3 444 172.2c0-4.2-0.1-8.4-0.3-12.5C462.6 146 479 129 492 109.5z"/></svg>
+            </a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://nearkim.coffee/posts/quicksort-python-implementation" title="Share on Facebook" rel="noreferrer noopener" target="_blank">
+              <svg viewBox="0 0 512 512"><path d="M288 192v-38.1c0-17.2 3.8-25.9 30.5-25.9H352V64h-55.9c-68.5 0-91.1 31.4-91.1 85.3V192h-45v64h45v192h83V256h56.4l7.6-64H288z"/></svg>
+            </a>
+          </div>
+
+          
+            <div id="disqus_thread" class="article-comments"></div>
+            <script src="https://nearkim.disqus.com/embed.js" async defer></script>
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+          
+        </article>
+        <footer class="footer scrollappear">
+  <p>
+    Give a good cup of COFFEE to
+    <a href="/about" title="About me">Me</a>.
+  </p>
+</footer>
+
+      </div>
+    </div>
+  </main>
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-131005151-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-131005151-1');
+  </script>
+
+
+<script src="/assets/vendor-130c9c254effc51f3283620bc635851da7b99c20901216948f11ba72ee13317f.js" type="text/javascript"></script>
+
+
+  <script src="/assets/webfonts-96493456d319d1bf419afdf8701552d4d486fee6afd304897d4fd81eb4e0cc0b.js" type="text/javascript"></script>
+
+
+
+  <script src="/assets/scrollappear-e2da8ea567e418637e31266cc5302126eaa79f62a2273739086358b589a89ee6.js" type="text/javascript"></script>
+
+
+<script src="/assets/application-cfde13ac81ddaf4351b2e739603e2baf688d0fcc9aba613fe62bbb1c7b037fb9.js" type="text/javascript"></script>
+
+
+</body>
+</html>

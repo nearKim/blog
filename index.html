@@ -1,36 +1,682 @@
----
-layout: default
-title: "Entrypoint"
-description: ""
----
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>nearKim's Facade | Entrypoint</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<ul class="article-list">
-  {% for post in paginator.posts %}
-    <li class="article-list-item {% if site.scrollappear_enabled %}scrollappear{% endif %}">
-      <a href="{{ post.url | relative_url }}" title="{{ post.title }}">
+  <meta property="og:title" content="Entrypoint">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nearkim.coffee/">
+  <meta property="og:description" content="">
+  <meta property="og:site_name" content="nearKim's Facade">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:url" content="https://nearkim.coffee/">
+  <meta name="twitter:title" content="Entrypoint">
+  <meta name="twitter:description" content="">
+
+  
+    <meta property="og:image" content="https://nearkim.coffee/assets/og-image-ee46bbc61b334e821e81534b1fd43f3fee6f020ec174b3c2114445695fd48c01.jpg">
+    <meta name="twitter:image" content="https://nearkim.coffee/assets/og-image-ee46bbc61b334e821e81534b1fd43f3fee6f020ec174b3c2114445695fd48c01.jpg">
+  
+
+  <link href="https://nearkim.coffee/feed.xml" type="application/rss+xml" rel="alternate" title="nearKim's Facade Last 10 blog posts" />
+
+  
+
+  
+
+    
+      <link rel="icon" type="image/x-icon" href="/assets/favicon-light-1f4425f1e3e25f63badc3598526859407d5320036677e358d9d3e13135e63c77.ico">
+      <link rel="apple-touch-icon" href="/assets/apple-touch-icon-light-87d1f2a3a19b1500e5c1626a0492025ca5f7f97d24540dc5900288e92112925a.png">
+      <link rel="stylesheet" type="text/css" href="/assets/light-4f04efe62b26f5073d4f6a7425c9ba362ffa41307a843df937937a9c2edd5436.css">
+    
+
+  
+
+</head>
+
+<body>
+  <main>
+    <div class="grid grid-centered">
+      <div class="grid-cell">
+        <nav class="header-nav scrollappear">
+  <a href="/" class="header-logo" title="nearKim's Facade">nearKim's Facade</a>
+  <ul class="header-links">
+    
+      <li>
+        <a href="/about" title="About me">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-about">
+  <use href="/assets/about-ecf154b571ab8034ae00aeed91a3b7ad68db80b46d958753ad6216c919486e88.svg#icon-about" xlink:href="/assets/about-ecf154b571ab8034ae00aeed91a3b7ad68db80b46d958753ad6216c919486e88.svg#icon-about"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+    
+    
+    
+      <li>
+        <a href="https://github.com/nearKim" rel="noreferrer noopener" target="_blank" title="GitHub">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-github">
+  <use href="/assets/github-094f81040819f34343ee6ffff0980f17e2807b08b595eaaf66ae3554934fd78d.svg#icon-github" xlink:href="/assets/github-094f81040819f34343ee6ffff0980f17e2807b08b595eaaf66ae3554934fd78d.svg#icon-github"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+    
+    
+    
+    
+    
+      <li>
+        <a href="https://www.linkedin.com/in/인근-김-60679615b" rel="noreferrer noopener" target="_blank" title="LinkedIn">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-linkedin">
+  <use href="/assets/linkedin-cdc5c107044324a3dfbea2e9ead15873f8dee304c37d73a046988956b706256e.svg#icon-linkedin" xlink:href="/assets/linkedin-cdc5c107044324a3dfbea2e9ead15873f8dee304c37d73a046988956b706256e.svg#icon-linkedin"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+    
+    
+      <li>
+        <a href="https://instagram.com/near.kim" rel="noreferrer noopener" target="_blank" title="Instagram">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-instagram">
+  <use href="/assets/instagram-37f85bc75b43ecc4c114d9a46f846327fe13c5893787c6afbcfef9d30d58bd9e.svg#icon-instagram" xlink:href="/assets/instagram-37f85bc75b43ecc4c114d9a46f846327fe13c5893787c6afbcfef9d30d58bd9e.svg#icon-instagram"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      <li>
+        <a href="mailto:garfield@snu.ac.kr" title="Email">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-email">
+  <use href="/assets/email-782473193bf750036fdb90e8daa075508a20509d01854c09f3237c144a3f0601.svg#icon-email" xlink:href="/assets/email-782473193bf750036fdb90e8daa075508a20509d01854c09f3237c144a3f0601.svg#icon-email"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+    
+  </ul>
+</nav>
+
+
+  <ul class="header-tags scrollappear">
+    
+    
+      
+        <li><a href="/tag/algorithm">Algorithm</a></li>
+    
+      
+        <li><a href="/tag/aws">Aws</a></li>
+    
+      
+        <li><a href="/tag/devops">Devops</a></li>
+    
+      
+        <li><a href="/tag/django">Django</a></li>
+    
+      
+        <li><a href="/tag/javascript">Javascript</a></li>
+    
+      
+        <li><a href="/tag/python">Python</a></li>
+    
+      
+        <li><a href="/tag/tutorial">Tutorial</a></li>
+    
+  </ul>
+
+
+
+        <ul class="article-list">
+  
+    <li class="article-list-item scrollappear">
+      <a href="/posts/django-lazy-function" title="Django lazy 함수 파헤치기">
         <h5>
-          {{ post.title }}
-          {% include svg-icon.html icon="arrow-right" %}
+          Django lazy 함수 파헤치기
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-arrow-right">
+  <use href="/assets/arrow-right-05feb9da52810d15348895a9a885c61803f4d2ae681b4fc442b285fef184dd2b.svg#icon-arrow-right" xlink:href="/assets/arrow-right-05feb9da52810d15348895a9a885c61803f4d2ae681b4fc442b285fef184dd2b.svg#icon-arrow-right"></use>
+</svg>
+
         </h5>
       </a>
       <p>
-        {% if post.description %}
-          {{ post.description }}
-        {% else %}
-          {{ post.excerpt }}
-        {% endif %}
+        
+          Django가 제공하는 lazy 함수의 구조 및 작동방식 분석하기
+        
       </p>
-      {% include article/info-footer.html post=post %}
+      <div class="article-list-footer">
+  <span class="article-list-date">
+    July 12, 2020
+  </span>
+  <span class="article-list-divider">-</span>
+  <span class="article-list-minutes">
+    
+    
+      7 minute read
+    
+  </span>
+  <span class="article-list-divider">-</span>
+  <div class="article-list-tags">
+    
+      
+      <a href="/tag/python" title="See all posts with tag 'python'">python</a>
+    
+      
+      <a href="/tag/django" title="See all posts with tag 'django'">django</a>
+    
+  </div>
+</div>
     </li>
-  {% endfor %}
-  {% if paginator.total_pages > 1 %}
-    <li class="article-pagination {% if site.settings.scrollappear_enabled %}scrollappear{% endif %}">
-      {% if paginator.next_page %}
-        <a href="{{ paginator.next_page_path }}" class="article-pagination-left">{% include svg-icon.html icon="arrow-left" %} Older posts</a>
-      {% endif %}
-      {% if paginator.previous_page %}
-        <a href="{{ paginator.previous_page_path }}" class="article-pagination-right">Newer posts {% include svg-icon.html icon="arrow-right" %}</a>
-      {% endif %}
+  
+    <li class="article-list-item scrollappear">
+      <a href="/posts/unary-function-chainer" title="Higher order function Python implementation">
+        <h5>
+          Higher order function Python implementation
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-arrow-right">
+  <use href="/assets/arrow-right-05feb9da52810d15348895a9a885c61803f4d2ae681b4fc442b285fef184dd2b.svg#icon-arrow-right" xlink:href="/assets/arrow-right-05feb9da52810d15348895a9a885c61803f4d2ae681b4fc442b285fef184dd2b.svg#icon-arrow-right"></use>
+</svg>
+
+        </h5>
+      </a>
+      <p>
+        
+          Chaining 된 Unary Function들로 이루어진 Higher order function을 Python으로 구현하기 
+        
+      </p>
+      <div class="article-list-footer">
+  <span class="article-list-date">
+    June 12, 2019
+  </span>
+  <span class="article-list-divider">-</span>
+  <span class="article-list-minutes">
+    
+    
+      3 minute read
+    
+  </span>
+  <span class="article-list-divider">-</span>
+  <div class="article-list-tags">
+    
+      
+      <a href="/tag/python" title="See all posts with tag 'python'">python</a>
+    
+  </div>
+</div>
     </li>
-  {% endif %}
+  
+    <li class="article-list-item scrollappear">
+      <a href="/posts/quicksort-python-implementation" title="Quicksort 알고리즘 구현">
+        <h5>
+          Quicksort 알고리즘 구현
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-arrow-right">
+  <use href="/assets/arrow-right-05feb9da52810d15348895a9a885c61803f4d2ae681b4fc442b285fef184dd2b.svg#icon-arrow-right" xlink:href="/assets/arrow-right-05feb9da52810d15348895a9a885c61803f4d2ae681b4fc442b285fef184dd2b.svg#icon-arrow-right"></use>
+</svg>
+
+        </h5>
+      </a>
+      <p>
+        
+          Quicksort 알고리즘을 Python을 이용하여 구현하기
+        
+      </p>
+      <div class="article-list-footer">
+  <span class="article-list-date">
+    June 6, 2019
+  </span>
+  <span class="article-list-divider">-</span>
+  <span class="article-list-minutes">
+    
+    
+      3 minute read
+    
+  </span>
+  <span class="article-list-divider">-</span>
+  <div class="article-list-tags">
+    
+      
+      <a href="/tag/algorithm" title="See all posts with tag 'algorithm'">algorithm</a>
+    
+      
+      <a href="/tag/python" title="See all posts with tag 'python'">python</a>
+    
+  </div>
+</div>
+    </li>
+  
+    <li class="article-list-item scrollappear">
+      <a href="/posts/quicksort-complexity" title="Quicksort 알고리즘 복잡도">
+        <h5>
+          Quicksort 알고리즘 복잡도
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-arrow-right">
+  <use href="/assets/arrow-right-05feb9da52810d15348895a9a885c61803f4d2ae681b4fc442b285fef184dd2b.svg#icon-arrow-right" xlink:href="/assets/arrow-right-05feb9da52810d15348895a9a885c61803f4d2ae681b4fc442b285fef184dd2b.svg#icon-arrow-right"></use>
+</svg>
+
+        </h5>
+      </a>
+      <p>
+        
+          Quicksort 알고리즘의 평균 시간복잡도 수학적으로 증명하기
+        
+      </p>
+      <div class="article-list-footer">
+  <span class="article-list-date">
+    June 3, 2019
+  </span>
+  <span class="article-list-divider">-</span>
+  <span class="article-list-minutes">
+    
+    
+      3 minute read
+    
+  </span>
+  <span class="article-list-divider">-</span>
+  <div class="article-list-tags">
+    
+      
+      <a href="/tag/algorithm" title="See all posts with tag 'algorithm'">algorithm</a>
+    
+  </div>
+</div>
+    </li>
+  
+    <li class="article-list-item scrollappear">
+      <a href="/posts/quicksort-algorithm" title="Quicksort 알고리즘 개요">
+        <h5>
+          Quicksort 알고리즘 개요
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-arrow-right">
+  <use href="/assets/arrow-right-05feb9da52810d15348895a9a885c61803f4d2ae681b4fc442b285fef184dd2b.svg#icon-arrow-right" xlink:href="/assets/arrow-right-05feb9da52810d15348895a9a885c61803f4d2ae681b4fc442b285fef184dd2b.svg#icon-arrow-right"></use>
+</svg>
+
+        </h5>
+      </a>
+      <p>
+        
+          Pivot을 기준으로 정렬하는 Quicksort 알고리즘 알아보기
+        
+      </p>
+      <div class="article-list-footer">
+  <span class="article-list-date">
+    June 3, 2019
+  </span>
+  <span class="article-list-divider">-</span>
+  <span class="article-list-minutes">
+    
+    
+      3 minute read
+    
+  </span>
+  <span class="article-list-divider">-</span>
+  <div class="article-list-tags">
+    
+      
+      <a href="/tag/algorithm" title="See all posts with tag 'algorithm'">algorithm</a>
+    
+  </div>
+</div>
+    </li>
+  
+    <li class="article-list-item scrollappear">
+      <a href="/posts/inversion-count-python-implementation" title="Counting Inversion 알고리즘 구현">
+        <h5>
+          Counting Inversion 알고리즘 구현
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-arrow-right">
+  <use href="/assets/arrow-right-05feb9da52810d15348895a9a885c61803f4d2ae681b4fc442b285fef184dd2b.svg#icon-arrow-right" xlink:href="/assets/arrow-right-05feb9da52810d15348895a9a885c61803f4d2ae681b4fc442b285fef184dd2b.svg#icon-arrow-right"></use>
+</svg>
+
+        </h5>
+      </a>
+      <p>
+        
+          Counting Inversion 알고리즘을 Python으로 구현하기
+        
+      </p>
+      <div class="article-list-footer">
+  <span class="article-list-date">
+    May 21, 2019
+  </span>
+  <span class="article-list-divider">-</span>
+  <span class="article-list-minutes">
+    
+    
+      4 minute read
+    
+  </span>
+  <span class="article-list-divider">-</span>
+  <div class="article-list-tags">
+    
+      
+      <a href="/tag/algorithm" title="See all posts with tag 'algorithm'">algorithm</a>
+    
+      
+      <a href="/tag/python" title="See all posts with tag 'python'">python</a>
+    
+  </div>
+</div>
+    </li>
+  
+    <li class="article-list-item scrollappear">
+      <a href="/posts/inversion-count-algorithm" title="Counting Inversions of an array">
+        <h5>
+          Counting Inversions of an array
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-arrow-right">
+  <use href="/assets/arrow-right-05feb9da52810d15348895a9a885c61803f4d2ae681b4fc442b285fef184dd2b.svg#icon-arrow-right" xlink:href="/assets/arrow-right-05feb9da52810d15348895a9a885c61803f4d2ae681b4fc442b285fef184dd2b.svg#icon-arrow-right"></use>
+</svg>
+
+        </h5>
+      </a>
+      <p>
+        
+          주어진 Array의 Inversion Pair의 갯수를 구하는 알고리즘 알아보기
+        
+      </p>
+      <div class="article-list-footer">
+  <span class="article-list-date">
+    May 19, 2019
+  </span>
+  <span class="article-list-divider">-</span>
+  <span class="article-list-minutes">
+    
+    
+      4 minute read
+    
+  </span>
+  <span class="article-list-divider">-</span>
+  <div class="article-list-tags">
+    
+      
+      <a href="/tag/algorithm" title="See all posts with tag 'algorithm'">algorithm</a>
+    
+  </div>
+</div>
+    </li>
+  
+    <li class="article-list-item scrollappear">
+      <a href="/posts/karatsuba-python-implementation" title="Karatsuba 알고리즘 구현하기">
+        <h5>
+          Karatsuba 알고리즘 구현하기
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-arrow-right">
+  <use href="/assets/arrow-right-05feb9da52810d15348895a9a885c61803f4d2ae681b4fc442b285fef184dd2b.svg#icon-arrow-right" xlink:href="/assets/arrow-right-05feb9da52810d15348895a9a885c61803f4d2ae681b4fc442b285fef184dd2b.svg#icon-arrow-right"></use>
+</svg>
+
+        </h5>
+      </a>
+      <p>
+        
+          빠른 곱셈연산을 위한 Karatsuba 알고리즘을 Python으로 구현하기
+        
+      </p>
+      <div class="article-list-footer">
+  <span class="article-list-date">
+    May 18, 2019
+  </span>
+  <span class="article-list-divider">-</span>
+  <span class="article-list-minutes">
+    
+    
+      3 minute read
+    
+  </span>
+  <span class="article-list-divider">-</span>
+  <div class="article-list-tags">
+    
+      
+      <a href="/tag/algorithm" title="See all posts with tag 'algorithm'">algorithm</a>
+    
+      
+      <a href="/tag/python" title="See all posts with tag 'python'">python</a>
+    
+  </div>
+</div>
+    </li>
+  
+    <li class="article-list-item scrollappear">
+      <a href="/posts/karatsuba-algorithm" title="Karatsuba 알고리즘 개요">
+        <h5>
+          Karatsuba 알고리즘 개요
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-arrow-right">
+  <use href="/assets/arrow-right-05feb9da52810d15348895a9a885c61803f4d2ae681b4fc442b285fef184dd2b.svg#icon-arrow-right" xlink:href="/assets/arrow-right-05feb9da52810d15348895a9a885c61803f4d2ae681b4fc442b285fef184dd2b.svg#icon-arrow-right"></use>
+</svg>
+
+        </h5>
+      </a>
+      <p>
+        
+          빠른 곱셈연산을 위한 Karatsuba 알고리즘 알아보기
+        
+      </p>
+      <div class="article-list-footer">
+  <span class="article-list-date">
+    May 18, 2019
+  </span>
+  <span class="article-list-divider">-</span>
+  <span class="article-list-minutes">
+    
+    
+      4 minute read
+    
+  </span>
+  <span class="article-list-divider">-</span>
+  <div class="article-list-tags">
+    
+      
+      <a href="/tag/algorithm" title="See all posts with tag 'algorithm'">algorithm</a>
+    
+  </div>
+</div>
+    </li>
+  
+    <li class="article-list-item scrollappear">
+      <a href="/posts/deploy-django-aws-traditional" title="간단한 Django 어플리케이션 AWS에 배포하기">
+        <h5>
+          간단한 Django 어플리케이션 AWS에 배포하기
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-arrow-right">
+  <use href="/assets/arrow-right-05feb9da52810d15348895a9a885c61803f4d2ae681b4fc442b285fef184dd2b.svg#icon-arrow-right" xlink:href="/assets/arrow-right-05feb9da52810d15348895a9a885c61803f4d2ae681b4fc442b285fef184dd2b.svg#icon-arrow-right"></use>
+</svg>
+
+        </h5>
+      </a>
+      <p>
+        
+          전통적인 방법으로 Django 어플리케이션 EC2 인스턴스에 배포하기 
+        
+      </p>
+      <div class="article-list-footer">
+  <span class="article-list-date">
+    May 12, 2019
+  </span>
+  <span class="article-list-divider">-</span>
+  <span class="article-list-minutes">
+    
+    
+      5 minute read
+    
+  </span>
+  <span class="article-list-divider">-</span>
+  <div class="article-list-tags">
+    
+      
+      <a href="/tag/aws" title="See all posts with tag 'aws'">aws</a>
+    
+      
+      <a href="/tag/devops" title="See all posts with tag 'devops'">devops</a>
+    
+      
+      <a href="/tag/django" title="See all posts with tag 'django'">django</a>
+    
+      
+      <a href="/tag/tutorial" title="See all posts with tag 'tutorial'">tutorial</a>
+    
+  </div>
+</div>
+    </li>
+  
+    <li class="article-list-item scrollappear">
+      <a href="/posts/javascript-tree-exist-childnode-algorithm" title="Tree 구조에서 특정 Node의 후손 중 특정 id를 가진 Node의 존재 여부 알아내기">
+        <h5>
+          Tree 구조에서 특정 Node의 후손 중 특정 id를 가진 Node의 존재 여부 알아내기
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-arrow-right">
+  <use href="/assets/arrow-right-05feb9da52810d15348895a9a885c61803f4d2ae681b4fc442b285fef184dd2b.svg#icon-arrow-right" xlink:href="/assets/arrow-right-05feb9da52810d15348895a9a885c61803f4d2ae681b4fc442b285fef184dd2b.svg#icon-arrow-right"></use>
+</svg>
+
+        </h5>
+      </a>
+      <p>
+        
+          Javascript를 이용하여 Tree의 어떤 Node의 모든 하위 Node 중에 특정한 id를 가진 Node가 존재하는지 검사하기
+        
+      </p>
+      <div class="article-list-footer">
+  <span class="article-list-date">
+    May 4, 2019
+  </span>
+  <span class="article-list-divider">-</span>
+  <span class="article-list-minutes">
+    
+    
+      2 minute read
+    
+  </span>
+  <span class="article-list-divider">-</span>
+  <div class="article-list-tags">
+    
+      
+      <a href="/tag/javascript" title="See all posts with tag 'javascript'">javascript</a>
+    
+      
+      <a href="/tag/algorithm" title="See all posts with tag 'algorithm'">algorithm</a>
+    
+  </div>
+</div>
+    </li>
+  
+    <li class="article-list-item scrollappear">
+      <a href="/posts/javascript-tree-find-node-algorithm" title="Tree 구조에서 특정 Node 찾기">
+        <h5>
+          Tree 구조에서 특정 Node 찾기
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-arrow-right">
+  <use href="/assets/arrow-right-05feb9da52810d15348895a9a885c61803f4d2ae681b4fc442b285fef184dd2b.svg#icon-arrow-right" xlink:href="/assets/arrow-right-05feb9da52810d15348895a9a885c61803f4d2ae681b4fc442b285fef184dd2b.svg#icon-arrow-right"></use>
+</svg>
+
+        </h5>
+      </a>
+      <p>
+        
+          Javascript를 이용한 Tree 자료구조에서 특정 ID를 가지는 Node 탐색하기
+        
+      </p>
+      <div class="article-list-footer">
+  <span class="article-list-date">
+    May 1, 2019
+  </span>
+  <span class="article-list-divider">-</span>
+  <span class="article-list-minutes">
+    
+    
+      2 minute read
+    
+  </span>
+  <span class="article-list-divider">-</span>
+  <div class="article-list-tags">
+    
+      
+      <a href="/tag/javascript" title="See all posts with tag 'javascript'">javascript</a>
+    
+      
+      <a href="/tag/algorithm" title="See all posts with tag 'algorithm'">algorithm</a>
+    
+  </div>
+</div>
+    </li>
+  
+    <li class="article-list-item scrollappear">
+      <a href="/posts/first-post" title="기술 블로그 개설">
+        <h5>
+          기술 블로그 개설
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-arrow-right">
+  <use href="/assets/arrow-right-05feb9da52810d15348895a9a885c61803f4d2ae681b4fc442b285fef184dd2b.svg#icon-arrow-right" xlink:href="/assets/arrow-right-05feb9da52810d15348895a9a885c61803f4d2ae681b4fc442b285fef184dd2b.svg#icon-arrow-right"></use>
+</svg>
+
+        </h5>
+      </a>
+      <p>
+        
+          개발자에게 정리는 중요하다.
+        
+      </p>
+      <div class="article-list-footer">
+  <span class="article-list-date">
+    October 14, 2018
+  </span>
+  <span class="article-list-divider">-</span>
+  <span class="article-list-minutes">
+    
+    
+      1 minute read
+    
+  </span>
+  <span class="article-list-divider">-</span>
+  <div class="article-list-tags">
+    
+  </div>
+</div>
+    </li>
+  
+  
 </ul>
+
+        <footer class="footer scrollappear">
+  <p>
+    Give a good cup of COFFEE to
+    <a href="/about" title="About me">Me</a>.
+  </p>
+</footer>
+
+      </div>
+    </div>
+  </main>
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-131005151-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-131005151-1');
+  </script>
+
+
+<script src="/assets/vendor-130c9c254effc51f3283620bc635851da7b99c20901216948f11ba72ee13317f.js" type="text/javascript"></script>
+
+
+  <script src="/assets/webfonts-96493456d319d1bf419afdf8701552d4d486fee6afd304897d4fd81eb4e0cc0b.js" type="text/javascript"></script>
+
+
+
+  <script src="/assets/scrollappear-e2da8ea567e418637e31266cc5302126eaa79f62a2273739086358b589a89ee6.js" type="text/javascript"></script>
+
+
+<script src="/assets/application-cfde13ac81ddaf4351b2e739603e2baf688d0fcc9aba613fe62bbb1c7b037fb9.js" type="text/javascript"></script>
+
+
+</body>
+</html>

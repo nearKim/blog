@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>nearKim's Facade | Higher order function Python implementation</title>
+  <meta name="description" content="Chaining 된 Unary Function들로 이루어진 Higher order function을 Python으로 구현하기 ">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta property="og:title" content="Higher order function Python implementation">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nearkim.coffee/posts/unary-function-chainer">
+  <meta property="og:description" content="Chaining 된 Unary Function들로 이루어진 Higher order function을 Python으로 구현하기 ">
+  <meta property="og:site_name" content="nearKim's Facade">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:url" content="https://nearkim.coffee/posts/unary-function-chainer">
+  <meta name="twitter:title" content="Higher order function Python implementation">
+  <meta name="twitter:description" content="Chaining 된 Unary Function들로 이루어진 Higher order function을 Python으로 구현하기 ">
+
+  
+    <meta property="og:image" content="https://nearkim.coffee/assets/og-image-ee46bbc61b334e821e81534b1fd43f3fee6f020ec174b3c2114445695fd48c01.jpg">
+    <meta name="twitter:image" content="https://nearkim.coffee/assets/og-image-ee46bbc61b334e821e81534b1fd43f3fee6f020ec174b3c2114445695fd48c01.jpg">
+  
+
+  <link href="https://nearkim.coffee/feed.xml" type="application/rss+xml" rel="alternate" title="nearKim's Facade Last 10 blog posts" />
+
+  
+
+  
+
+    
+      <link rel="icon" type="image/x-icon" href="/assets/favicon-light-1f4425f1e3e25f63badc3598526859407d5320036677e358d9d3e13135e63c77.ico">
+      <link rel="apple-touch-icon" href="/assets/apple-touch-icon-light-87d1f2a3a19b1500e5c1626a0492025ca5f7f97d24540dc5900288e92112925a.png">
+      <link rel="stylesheet" type="text/css" href="/assets/light-4f04efe62b26f5073d4f6a7425c9ba362ffa41307a843df937937a9c2edd5436.css">
+    
+
+  
+
+</head>
+
+<body>
+  <main>
+    <div class="grid grid-centered">
+      <div class="grid-cell">
+        <nav class="header-nav scrollappear">
+  <a href="/" class="header-logo" title="nearKim's Facade">nearKim's Facade</a>
+  <ul class="header-links">
+    
+      <li>
+        <a href="/about" title="About me">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-about">
+  <use href="/assets/about-ecf154b571ab8034ae00aeed91a3b7ad68db80b46d958753ad6216c919486e88.svg#icon-about" xlink:href="/assets/about-ecf154b571ab8034ae00aeed91a3b7ad68db80b46d958753ad6216c919486e88.svg#icon-about"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+    
+    
+    
+      <li>
+        <a href="https://github.com/nearKim" rel="noreferrer noopener" target="_blank" title="GitHub">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-github">
+  <use href="/assets/github-094f81040819f34343ee6ffff0980f17e2807b08b595eaaf66ae3554934fd78d.svg#icon-github" xlink:href="/assets/github-094f81040819f34343ee6ffff0980f17e2807b08b595eaaf66ae3554934fd78d.svg#icon-github"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+    
+    
+    
+    
+    
+      <li>
+        <a href="https://www.linkedin.com/in/인근-김-60679615b" rel="noreferrer noopener" target="_blank" title="LinkedIn">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-linkedin">
+  <use href="/assets/linkedin-cdc5c107044324a3dfbea2e9ead15873f8dee304c37d73a046988956b706256e.svg#icon-linkedin" xlink:href="/assets/linkedin-cdc5c107044324a3dfbea2e9ead15873f8dee304c37d73a046988956b706256e.svg#icon-linkedin"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+    
+    
+      <li>
+        <a href="https://instagram.com/near.kim" rel="noreferrer noopener" target="_blank" title="Instagram">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-instagram">
+  <use href="/assets/instagram-37f85bc75b43ecc4c114d9a46f846327fe13c5893787c6afbcfef9d30d58bd9e.svg#icon-instagram" xlink:href="/assets/instagram-37f85bc75b43ecc4c114d9a46f846327fe13c5893787c6afbcfef9d30d58bd9e.svg#icon-instagram"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      <li>
+        <a href="mailto:garfield@snu.ac.kr" title="Email">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon-email">
+  <use href="/assets/email-782473193bf750036fdb90e8daa075508a20509d01854c09f3237c144a3f0601.svg#icon-email" xlink:href="/assets/email-782473193bf750036fdb90e8daa075508a20509d01854c09f3237c144a3f0601.svg#icon-email"></use>
+</svg>
+
+        </a>
+      </li>
+    
+    
+    
+  </ul>
+</nav>
+
+
+  <ul class="header-tags scrollappear">
+    
+    
+      
+        <li><a href="/tag/algorithm">Algorithm</a></li>
+    
+      
+        <li><a href="/tag/aws">Aws</a></li>
+    
+      
+        <li><a href="/tag/devops">Devops</a></li>
+    
+      
+        <li><a href="/tag/django">Django</a></li>
+    
+      
+        <li><a href="/tag/javascript">Javascript</a></li>
+    
+      
+        <li><a href="/tag/python">Python</a></li>
+    
+      
+        <li><a href="/tag/tutorial">Tutorial</a></li>
+    
+  </ul>
+
+
+
+        <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+        <article class="article scrollappear">
+          <header class="article-header">
+            <h1>Higher order function Python implementation</h1>
+            <p>Chaining 된 Unary Function들로 이루어진 Higher order function을 Python으로 구현하기 </p>
+            <div class="article-list-footer">
+  <span class="article-list-date">
+    June 12, 2019
+  </span>
+  <span class="article-list-divider">-</span>
+  <span class="article-list-minutes">
+    
+    
+      3 minute read
+    
+  </span>
+  <span class="article-list-divider">-</span>
+  <div class="article-list-tags">
+    
+      
+      <a href="/tag/python" title="See all posts with tag 'python'">python</a>
+    
+  </div>
+</div>
+          </header>
+
+          <div class="article-content">
+            <p>알고리즘 문제를 풀던 중 <a href="https://www.codewars.com/kata/unary-function-chainer/python">매우 아름다운 문제</a>를 발견해서 쓰는 글.</p>
+
+<h1 id="목표-정의">목표 정의</h1>
+<p>Unary function들의 List가 주어졌을 때, 이들의 합성함수를 나타내는 <code class="highlighter-rouge">Higher order function</code>을 생성한다.</p>
+
+<p>함수의 이름은 편의상 <code class="highlighter-rouge">chaining</code>이라 하자. 즉 다음 함수를 완성해야 한다.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">chaining</span><span class="p">(</span><span class="n">functions</span><span class="p">):</span>
+    <span class="c1"># TODO
+</span>    <span class="k">return</span> <span class="c1"># A function</span></code></pre></figure>
+
+<h1 id="문제-해결-전략">문제 해결 전략</h1>
+<p>직관적으로 <code class="highlighter-rouge">reduce</code>를 사용해야 할 것 같은 느낌이 든다. <strong>여러 원소를 한개의 원소로 축소하여 반환하는</strong> 문제이기 때문이다. 하지만 조금 더 여유를 가지고 생각해봤을 때, <code class="highlighter-rouge">Closure</code>를 사용하면 보다 깔끔하게 해결할 수 있을 것 같았고, 실제로도 그러했다.</p>
+
+<p>본 포스팅에서는 2가지 방법을 모두 다뤄본다.</p>
+
+<h1 id="reduce를-통한-구현">Reduce를 통한 구현</h1>
+
+<p><br /></p>
+
+<h3 id="step-1">Step 1</h3>
+<p>먼저, 정의한대로, <code class="highlighter-rouge">chaining</code>은 단일 함수를 리턴해야 한다.</p>
+<ul>
+  <li>이 단일 함수는 function 내지는 lambda일 것이고, Unary function들의 합성함수는 Unary이므로 input은 1개일 것이다. 이 함수를 <code class="highlighter-rouge">func(x)</code>라 하자.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">chaining</span><span class="p">(</span><span class="n">functions</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="c1"># TODO
+</span>    <span class="k">return</span> <span class="n">func</span></code></pre></figure>
+
+<h3 id="step-2">Step 2</h3>
+<p><code class="highlighter-rouge">func</code>는  <strong>함수의 리스트</strong>를 <strong>단일 함수</strong>로 변환해야 한다.</p>
+<ul>
+  <li>func는 reduce를 통해 구현될 것이고 아래 reduce의 명세에서, iterable은 <code class="highlighter-rouge">functions</code>일 것이며 initializer는 <code class="highlighter-rouge">x</code>일 것이다.</li>
+</ul>
+
+<blockquote>
+  <p>reduce (function, iterable [, initializer])</p>
+</blockquote>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="nb">reduce</span>
+<span class="k">def</span> <span class="nf">chaining</span><span class="p">(</span><span class="n">functions</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">reduce</span><span class="p">(</span>
+            <span class="bp">None</span><span class="p">,</span> <span class="c1"># TODO
+</span>            <span class="n">functions</span><span class="p">,</span>
+            <span class="n">x</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">func</span></code></pre></figure>
+
+<h3 id="step-3">Step 3</h3>
+<p>reduce의 명세에서 첫번째 parameter인 function은 accumulator(<code class="highlighter-rouge">acc</code>)와 funcions의 원소들을(<code class="highlighter-rouge">f</code>) 각각 받아서 합성하여 리턴해야 한다.</p>
+<ul>
+  <li>reduce의 첫 인자로 <code class="highlighter-rouge">lambda acc, f: f(acc)</code> 가 들어가야 한다.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="nb">reduce</span>
+<span class="k">def</span> <span class="nf">chaining</span><span class="p">(</span><span class="n">functions</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">reduce</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">acc</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="p">(</span><span class="n">acc</span><span class="p">),</span>
+            <span class="n">functions</span><span class="p">,</span>
+            <span class="n">x</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">func</span></code></pre></figure>
+
+<h4 id="부가설명">부가설명</h4>
+<ul>
+  <li>최초로 x가 acc로 삽입될 것이다. 이는 functions의 첫번째 함수(<script type="math/tex">f_1</script>)과 합성되어 반환된다:  <script type="math/tex">f_{1}(x)</script></li>
+  <li><script type="math/tex">f_{1}(x)</script>는 reduce의 정의에 따라 acc로 삽입되고 두번째 함수(<script type="math/tex">f_2</script>)와 합성되어 반환된다: <script type="math/tex">f_{2}(f_{1}(x))</script></li>
+  <li>같은 방법으로 계속하면 결국 <script type="math/tex">f_{n}(...f_{2}(f_{1}(x))...)</script>가 반환됨을 알 수 있다.</li>
+</ul>
+
+<h3 id="step-4">Step 4</h3>
+<p>함수가 완성되었으므로 간결하게 리팩터해보자. 위 함수는 의도치 않게 closure의 형태를 갖게 되었는데 (여기서 Closure를 이용한 풀이의 실마리를 얻는다) 그럴 필요 없이 lambda를 사용하면 한줄에 표시할 수 있다.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="nb">reduce</span>
+<span class="k">def</span> <span class="nf">chaining</span><span class="p">(</span><span class="n">functions</span><span class="p">):</span>
+    <span class="k">return</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">acc</span><span class="p">,</span> <span class="n">f</span><span class="p">:</span> <span class="n">f</span><span class="p">(</span><span class="n">acc</span><span class="p">),</span> <span class="n">functions</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span></code></pre></figure>
+
+<p>이로써 풀이가 끝났다.</p>
+
+<h1 id="closure를-통한-구현">Closure를 통한 구현</h1>
+<p>위에서 이미 Closure에 대한 아이디어를 얻었다. reduce를 사용하지 않고 구현해본다.</p>
+
+<h3 id="풀이-과정">풀이 과정</h3>
+<p>inner function에서 해야할 일은 input parameter <code class="highlighter-rouge">x</code>를 받아서 합성함수를 리턴하는 것 뿐이다.</p>
+<ul>
+  <li>x에 functions의 첫번째 함수를 적용하고 다시 x에 대입한다.</li>
+  <li>x에 functions의 두번째 함수를 적용하고 다시 x에 대입한다.</li>
+  <li>이 과정을 반복한 후 x를 리턴하면 결국 모든 functions의 함수들을 chaining 한 것과 동일하다.</li>
+</ul>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="nb">reduce</span>
+<span class="k">def</span> <span class="nf">chaining</span><span class="p">(</span><span class="n">functions</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">functions</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
+    <span class="k">return</span> <span class="n">func</span></code></pre></figure>
+
+<p>reduce를 이용한 방법보다 위 방법이 보다 깔끔하고 이해하기 쉽다.</p>
+
+
+          </div>
+          <div class="article-share">
+            
+            
+            <a href="https://twitter.com/home?status=Higher+order+function+Python+implementation%20-%20https://nearkim.coffee/posts/unary-function-chainer" title="Share on Twitter" rel="noreferrer noopener" target="_blank">
+              <svg viewBox="0 0 512 512"><path d="M492 109.5c-17.4 7.7-36 12.9-55.6 15.3 20-12 35.4-31 42.6-53.6 -18.7 11.1-39.4 19.2-61.5 23.5C399.8 75.8 374.6 64 346.8 64c-53.5 0-96.8 43.4-96.8 96.9 0 7.6 0.8 15 2.5 22.1 -80.5-4-151.9-42.6-199.6-101.3 -8.3 14.3-13.1 31-13.1 48.7 0 33.6 17.2 63.3 43.2 80.7C67 210.7 52 206.3 39 199c0 0.4 0 0.8 0 1.2 0 47 33.4 86.1 77.7 95 -8.1 2.2-16.7 3.4-25.5 3.4 -6.2 0-12.3-0.6-18.2-1.8 12.3 38.5 48.1 66.5 90.5 67.3 -33.1 26-74.9 41.5-120.3 41.5 -7.8 0-15.5-0.5-23.1-1.4C62.8 432 113.7 448 168.3 448 346.6 448 444 300.3 444 172.2c0-4.2-0.1-8.4-0.3-12.5C462.6 146 479 129 492 109.5z"/></svg>
+            </a>
+            <a href="https://www.facebook.com/sharer/sharer.php?u=https://nearkim.coffee/posts/unary-function-chainer" title="Share on Facebook" rel="noreferrer noopener" target="_blank">
+              <svg viewBox="0 0 512 512"><path d="M288 192v-38.1c0-17.2 3.8-25.9 30.5-25.9H352V64h-55.9c-68.5 0-91.1 31.4-91.1 85.3V192h-45v64h45v192h83V256h56.4l7.6-64H288z"/></svg>
+            </a>
+          </div>
+
+          
+            <div id="disqus_thread" class="article-comments"></div>
+            <script src="https://nearkim.disqus.com/embed.js" async defer></script>
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+          
+        </article>
+        <footer class="footer scrollappear">
+  <p>
+    Give a good cup of COFFEE to
+    <a href="/about" title="About me">Me</a>.
+  </p>
+</footer>
+
+      </div>
+    </div>
+  </main>
+  
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-131005151-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-131005151-1');
+  </script>
+
+
+<script src="/assets/vendor-130c9c254effc51f3283620bc635851da7b99c20901216948f11ba72ee13317f.js" type="text/javascript"></script>
+
+
+  <script src="/assets/webfonts-96493456d319d1bf419afdf8701552d4d486fee6afd304897d4fd81eb4e0cc0b.js" type="text/javascript"></script>
+
+
+
+  <script src="/assets/scrollappear-e2da8ea567e418637e31266cc5302126eaa79f62a2273739086358b589a89ee6.js" type="text/javascript"></script>
+
+
+<script src="/assets/application-cfde13ac81ddaf4351b2e739603e2baf688d0fcc9aba613fe62bbb1c7b037fb9.js" type="text/javascript"></script>
+
+
+</body>
+</html>
